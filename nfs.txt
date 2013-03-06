@@ -1,16 +1,8 @@
-   program vers proto   port
+   pogram vers proto   port
     100000    2   tcp    111  portmapper
     100000    2   udp    111  portmapper
     100024    1   udp    653  status
     100024    1   tcp    656  status
-    100011    1   udp    909  rquotad
-    100011    2   udp    909  rquotad
-    100011    1   tcp    912  rquotad
-    100011    2   tcp    912  rquotad
-    100003    2   udp   2049  nfs
-    100003    3   udp   2049  nfs
-    100003    4   udp   2049  nfs
-    100021    1   udp  42290  nlockmgr
     100021    3   udp  42290  nlockmgr
     100021    4   udp  42290  nlockmgr
     100003    2   tcp   2049  nfs
