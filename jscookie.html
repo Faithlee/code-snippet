@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> New Document </title>
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+ </head>
+
+ <body onload="checkCookie()">
+  
+<script>
+	function setCookie(username, value, expireDays) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + expireDays);
+		//设置cookie
+		document.cookie = username + "=" + escape(value) + 
+		((expireDays == null) ? '' : ";expires=" + exdate.toGMTString());
+	}
+
+	function getCookie(name) {
+		var start = document.cookie.indexOf(name + '=');
+		
+		if (start != -1) {
+			start = start + name.length + 1;
+			var end = document.cookie.indexOf(';', start);
+
+			if (end == -1) {
+				end = document.cookie.length;
+			}
+
+			return unescape(document.cookie.substring(start, end));
+		}		
+	}
+
+	function checkCookie() {
+		var name = getCookie('name');
+
+		if (name) {
+			alert('welcome ' + name);
+		} else {
+			name = prompt("Please enter your name", '');
+			
+			if (name != null && !name.match(/\s+/)) 
+			{
+				setCookie('name', name, 1);
+			}
+		}	
+	}
+</script>
+
+ </body>
+</html>
