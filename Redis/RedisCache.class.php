@@ -47,7 +47,7 @@ class RedisCache extends Redis
 
 		while ($connected == false && $count < $timeout) {
 			try {
-				if ($redis->connect($config['server'], $config['port'])) {
+				if ($redis->connect($config['server'], $config['port'], $timeout)) {
 					if ($config['db']) {
 						$redis->select($config['db']);
 					}
@@ -91,17 +91,58 @@ class RedisCache extends Redis
 		return $this->redis->setex($key, $expire, $value);
 	}
 	/*}}}*/
-	/*{{{*/
+	/*{{{public function get()*/
+	/**
+	 * get 
+	 * 
+	 * @param mixed $key 
+	 * @param boolean $serialize 
+	 * @access public
+	 * @return array
+	 */
+	public function get($key, $serialize = true)
+	{
+		if (!$this->redis->exists($key)) {
+			return false;
+		}
+
+		if (!is_array($key)) {
+			$key = array($key);
+		}
+
+		$values = $this->redis->mget($key);
+		if ($serialize) {
+			foreach ($values as $key => $val) {
+				$values[$key] = unserialize($val);
+			}
+		}
+		
+		return $values;
+	}
 	/*}}}*/
+	/*{{{*/
+	public function delete($key)
+	{
+		
+	}
+	/*}}}*/
+
 	/*}}}*/
 
 } 
 
 $config = array('server' => '127.0.0.1', 'port' => '6379', 'db' => 0);
-$redis = new RedisCache($config);
 
-//var_dump($redis->set('name', 'gexing'));
-var_dump($redis->get('name'));
+$redisObj = new RedisCache($config);
+
+//var_dump($redisObj->set('names', 'gexingwang', 3600));
+$args = array(
+		'name'	 => 'lisi',
+		'age'	 => '24',
+		'sex'	 => 'female'
+	);
+var_dump($redisObj->set('person', $args, 3600));
+var_dump($redisObj->get('person'));
 
 
 ?>
