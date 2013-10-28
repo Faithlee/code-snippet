@@ -1,4 +1,4 @@
-//主文件
+//主文件,将模块包含进来
 
 var server = require('./server');
 var router = require('./route');
