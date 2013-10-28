@@ -1,4 +1,5 @@
 //引用node-formidable包实现图片上传
+//PS:需要把当前项目放置到node.js安装目录下
 
 var formidable = require('formidable'),
 	http = require('http'),

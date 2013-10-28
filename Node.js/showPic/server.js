@@ -4,7 +4,7 @@ var fs = require('fs');
 var http = require('http');
 
 http.createServer(function(request, response) {
-	fs.readFile('./test.jpg', function(error, file) {
+	fs.readFile('./test.jpg', 'binary', function(error, file) {
 		if (error) {
 			response.writeHead(500, {'content-type': 'text/plain'});
 			response.write(error + "\n");
@@ -12,7 +12,6 @@ http.createServer(function(request, response) {
 		} else {
 			response.writeHead(200, {'content-type': 'image/jpeg'});
 			response.write(file, 'binary');
-			response.write('hello, pic!');
 			response.end();
 		}
 	});
