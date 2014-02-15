@@ -7,7 +7,7 @@ function start() {
 	var content = 'empty';
 //"find /"
 	exec("ls -lah", function(error, stdout, stderr){
-				content = stdout;
+		content = stdout;
 	});
 
 	return content;

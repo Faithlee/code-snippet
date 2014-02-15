@@ -4,6 +4,7 @@ var exec = require("child_process").exec;
 
 function start(response) {
 	console.log("Request handle 'start' was called!");
+
 	exec("ls -lah", function(err, stdout, stderr){
 		response.writeHead(200, {'content-type': 'text/plain'});
 		response.write(stdout);
