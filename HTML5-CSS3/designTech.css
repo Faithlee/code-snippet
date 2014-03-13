@@ -1,0 +1,5 @@
+/*1、设计表格隔行换色, 至少IE9有效*/
+.table-striped tbody > tr:nth-child(2n+1) > td, .table-striped tbody > tr:nth-child(2n+1) > th {
+    background-color: #F9F9F9;
+}
+
