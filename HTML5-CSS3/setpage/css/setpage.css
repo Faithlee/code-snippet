@@ -1,0 +1,89 @@
+div, input, select, textarea, span, img, table, td, th, p, a, button, {
+    border-radius: 0 !important;
+}
+
+a {
+    color: #0D638F;
+    text-shadow: none !important;
+}
+
+.row-fluid {
+    width: 100%;
+}
+
+/*对row-fluid下的span起作用*/
+.row-fluid [class*="span"] {
+    -moz-box-sizing: border-box;
+    display: block;
+    float: left;
+    margin-left: 2.5641%;
+    height: 30px;
+    width: 300px;
+}
+
+.row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+}
+
+div.dataTables_info {
+    height: 30px;
+    line-height: 30px;
+}
+
+div.dataTables_paginate {
+    float: right;
+}
+
+.pagination ul {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.pagination ul > li {
+    display: inline;
+}
+
+.pagination ul > li:last-child > a, .pagination ul > li:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.pagination ul>li:first-child>a, .pagination ul>li:first-child>span {
+	border-left-width: 1px;
+	-webkit-border-bottom-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-webkit-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	-moz-border-radius-topleft: 4px;
+}
+
+.pagination ul > .disabled > span, .pagination ul > .disabled > a, .pagination ul > .disabled > a:hover, .pagination ul > .disabled > a:focus {
+    color: #999999;
+    cursor: default;
+}
+
+.pagination ul > li > a:hover, .pagination ul > li > a:focus, .pagination ul > .active > a, .pagination ul > .active > span {
+    background-color: #F5F5F5;
+}
+
+.pagination ul > li > a, .pagination ul > li > span {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    float: left;
+    line-height: 20px;
+    padding: 4px 12px;
+    text-decoration: none;
+}
