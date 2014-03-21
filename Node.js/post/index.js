@@ -1,5 +1,4 @@
 //主文件,包含应用模块
-
 var server = require('./server');
 var router = require('./route');
 var requestHandlers = require('./requestHandlers');
