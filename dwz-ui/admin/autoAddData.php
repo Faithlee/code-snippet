@@ -13,37 +13,47 @@ if (file_exists($fileName) && file_exists($descFile)) {
 	$description = file_get_contents($descFile);
 }
 
-echo date('Y-m-d', 1395279416);die;
 //@todo 手工数组组合
 eval("\$nameArr = $nameStr;");
 eval("\$description = $description;");
 
 if (is_array($nameArr)) {
+	$url = 'admin/keyword.ini.php'
 	foreach ($nameArr as $key => $name) {
 		$num = ++$key;
-		$modValue = $num % 10;
-		$length = ($modValue * 3) + mb_strlen($name);
+		$length = mb_strlen($name);
 
 		$sex = getSex();
 		$passwd = getPasswd($length);
 		$date = getAddTime();
-		$description = getDescription($length);
+		$descInfo = getDescription(20);
 		$addUser = 'admin';
 		$jobCode = '#' . str_pad($num, 5, '0', STR_PAD_LEFT);
 
-		$sql = 'INSERT INTO `dp_keywords` (`code`, `name`, `type`, `passwd`, `description`, `created_user`) ';
-		$sql .=	"VALUES ('{$jobCode}', '{$name}', '{$sex}', '{$passwd}', '{$description}', '{$addUser}')\n";
-		echo $sql;
+		//$sql = 'INSERT INTO `dp_keywords` (`code`, `name`, `type`, `passwd`, `description`, `created_user`) ';
+		//$sql .=	"VALUES ('{$jobCode}', '{$name}', '{$sex}', '{$passwd}', '{$descInfo}', '{$addUser}')\n";
+		curlAddData($url, $_POST);
 	}
 }
 
-var_dump($nameArr);
-echo __LINE__;
 //@todo 获取数据表结构
 
 
 //@todo curl添加数据
 
+function curlAddData($url, $data){
+	if (!is_array($data)) {
+		return false;
+	}
+
+	$handle = curl_init($url);
+
+	curl_setopt($handle, CURLOPT_POST, 1);
+	curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+
+	curl_exec($handle);
+	curl_close($handle);
+}
 
 //@todo xml数据结构
 
@@ -60,16 +70,11 @@ echo __LINE__;
 function getDescription($length = 20) {
 	global $description;
 	$desc = '';
-	$strlen = mb_strlen($description);
+	$strlen = mb_strlen($description, 'UTF-8');
 	$randPostion = rand(0, $strlen);
-	$desc = mb_substr($description, $randPostion, $length);
-	$descLen = mb_strlen($desc);
-
-	if ($descLen > $length) {
-		getDescription($length);
-	}
-	echo $randPostion,0, $length;
-die($desc);
+	$desc = mb_substr($description, $randPostion, $length, 'UTF-8');
+	$descLen = mb_strlen($desc, 'UTF-8');
+	
 	return $desc;
 }
 
@@ -95,9 +100,11 @@ function getPasswd($length = 10) {
 
 	$passwdArr = array_merge($letterArr, $numArr);
 	shuffle($passwdArr);
-
-	$passwdLen = $length > count($passwdArr)  ? 10 : $length;
-
+	$lenArr = array(6, $length, 10);
+	$max = max($lenArr);
+	$min = min($lenArr);
+	$passwdLen = rand($min, $max);
+	
 	$passwd = array_rand($passwdArr, $passwdLen);
 	$passwdStr = '';
 
@@ -121,3 +128,4 @@ function getAddTime(){
 
 	return date('Y-m-d H:i:s');
 }
+
