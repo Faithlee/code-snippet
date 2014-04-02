@@ -5,6 +5,9 @@
  * 
  */
 header("Content-Type: text/html; charset=UTF-8");
+
+//设置是否导入
+$import = false;
 $fileName = 'nameArr.conf';
 $descFile = 'description.conf';
 $nameStr = $description = '';
@@ -17,30 +20,40 @@ if (file_exists($fileName) && file_exists($descFile)) {
 eval("\$nameArr = $nameStr;");
 eval("\$description = $description;");
 
-if (is_array($nameArr)) {
-	$url = 'admin/keyword.ini.php'
+if (is_array($nameArr) && $import) {
+	//URL全路径
+	$url = 'http://localhost/dwzUI/admin/keyword.ini.php';
+	$_POST = array();
 	foreach ($nameArr as $key => $name) {
 		$num = ++$key;
 		$length = mb_strlen($name);
 
-		$sex = getSex();
-		$passwd = getPasswd($length);
-		$date = getAddTime();
-		$descInfo = getDescription(20);
-		$addUser = 'admin';
-		$jobCode = '#' . str_pad($num, 5, '0', STR_PAD_LEFT);
+		$_POST['name'] = $name;
+		$_POST['type'] = getSex();
+		$_POST['code'] = '#' . str_pad($num, 5, '0', STR_PAD_LEFT);
+		$_POST['status'] = getPasswd($length);
+		$_POST['created_user'] = 'admin';
+		$_POST['description'] = getDescription(20);
+		$_POST['created_date'] = getAddTime();
+		$_POST['handle'] = 'addKeyword';
+		$addRes = curlAddData($url, $_POST);
 
-		//$sql = 'INSERT INTO `dp_keywords` (`code`, `name`, `type`, `passwd`, `description`, `created_user`) ';
-		//$sql .=	"VALUES ('{$jobCode}', '{$name}', '{$sex}', '{$passwd}', '{$descInfo}', '{$addUser}')\n";
-		curlAddData($url, $_POST);
+		if (!$addRes) {
+			echo "{$key}、添加失败！\n";
+		} else {
+			echo "{$key}、添加成功！\n";
+		}
 	}
 }
 
-//@todo 获取数据表结构
-
-
-//@todo curl添加数据
-
+//@todo 
+/**
+ * curl添加数据
+ *  
+ * @param string $url 全路径URL
+ * @parma array $data 
+ * @return bool 
+ */
 function curlAddData($url, $data){
 	if (!is_array($data)) {
 		return false;
@@ -48,11 +61,53 @@ function curlAddData($url, $data){
 
 	$handle = curl_init($url);
 
+	curl_setopt($handle, CURLOPT_HEADER , 0);
+	curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
+
 	curl_setopt($handle, CURLOPT_POST, 1);
 	curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
 
-	curl_exec($handle);
-	curl_close($handle);
+
+	if (! $res = curl_exec($handle)) {
+		trigger_error(curl_error($handle));
+	}
+
+	return $res;
+}
+
+getTableStructure('dp_keywords');
+//@todo 获取数据表结构
+function getTableStructure($tableName){
+	require_once 'connect.php';
+
+	$tableArr = array();
+	$link = mysql_connect($hostName, $user, $passwd)  or die(mysql_error());
+	mysql_select_db($dbName, $link) or die(mysql_error());
+	//函数已过期，不建议使用
+	//$result = mysql_list_tables($dbName, $link);
+	$sql = ' SHOW TABLES FROM ' . $dbName;
+	$result = mysql_query($sql);
+
+	if (!empty($result)) {
+		while ($row = mysql_fetch_array($result)) {
+			$tableArr[] = $row[0];
+		}
+	}
+
+	if (!in_array($tableName, $tableArr)) {
+		throw new Exception("导出数据表结构失败！", 1);
+	}
+
+	$select = "SELECT * FROM {$tableName} LIMIT 1";
+	$selectRes = mysql_query($select);
+	if (empty($selectRes)) {
+		throw new Exception(mysql_error(), 1);
+	}
+
+	$fields = mysql_num_fields($selectRes);
+	
+	//todo 需要获取字段名称及类型	
+	return $fields;
 }
 
 //@todo xml数据结构
@@ -128,4 +183,3 @@ function getAddTime(){
 
 	return date('Y-m-d H:i:s');
 }
-
