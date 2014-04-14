@@ -45,13 +45,13 @@ if (is_array($nameArr) && $import) {
 		}
 	}
 }
-
-//@todo 
+//region curlAddData()
 /**
  * curl添加数据
  *  
  * @param string $url 全路径URL
- * @parma array $data 
+ * @param array $data
+ *
  * @return bool 
  */
 function curlAddData($url, $data){
@@ -74,9 +74,8 @@ function curlAddData($url, $data){
 
 	return $res;
 }
-
-getTableStructure('dp_keywords');
-//@todo 获取数据表结构
+//endregion
+//region getTableStructure()
 function getTableStructure($tableName){
 	require_once 'connect.php';
 
@@ -95,9 +94,11 @@ function getTableStructure($tableName){
 	}
 
 	if (!in_array($tableName, $tableArr)) {
-		throw new Exception("导出数据表结构失败！", 1);
+		throw new Exception("指定数据表不存在！", 1);
 	}
 
+    //获取数据表大致字段信息
+    /**
 	$select = "SELECT * FROM {$tableName} LIMIT 1";
 	$selectRes = mysql_query($select);
 	if (empty($selectRes)) {
@@ -105,18 +106,89 @@ function getTableStructure($tableName){
 	}
 
 	$fields = mysql_num_fields($selectRes);
-	
-	//todo 需要获取字段名称及类型	
-	return $fields;
+    for ($i = 0; $i < $fields; $i++) {
+        echo mysql_field_type($selectRes, $i) . " ";
+        echo mysql_field_name($selectRes, $i) . " ";
+        echo mysql_field_len($selectRes, $i) . " ";
+        echo mysql_field_flags($selectRes, $i) . "<br/>";
+    }
+    */
+
+    //获取数据表详细信息
+    $fieldArr = array();
+    $desc = "DESC {$tableName}";
+    $descRes = mysql_query($desc);
+    while ($row = mysql_fetch_assoc($descRes)) {
+       $fieldArr[] = $row;
+    }
+
+	return $fieldArr;
 }
+//endregion
+//region createXML($xmlTree)
+/**
+ * 创建xml文档
+ *
+ * @param array $xmlTree 组成文档的数组
+ *
+ * @return bool
+ */
+function createXML($xmlTree)
+{
+    if (!$xmlTree || !is_array($xmlTree)) {
+        return false;
+    }
 
-//@todo xml数据结构
+    $xmlWriter = new XMLWriter();
+    $xmlWriter->openMemory();
+    $xmlWriter->startDocument('1.0', 'UTF-8');
+    $xmlWriter->startElement('fields');
 
+    foreach ($xmlTree as $dom) {
+        $tagArr = array_keys($dom);
+        $text = array_values($dom);
+        $xmlWriter->startElement('fieldInfo');
+
+        foreach ($tagArr as $key => $tag) {
+            $indent = str_pad('', 4, ' ');
+            $xmlWriter->setIndent(true);
+            $xmlWriter->setIndentString($indent);
+            $xmlWriter->startElement($tag);
+            $xmlWriter->text($text[$key]);
+            $xmlWriter->endElement();
+        }
+
+        $xmlWriter->endElement();
+    }
+
+    $xmlWriter->endElement();
+    $xmlWriter->endDocument();
+    //输出文档
+    $xml = $xmlWriter->outputMemory();
+
+    return $xml;
+}
+//endregion
 
 //导入数据表
 
+$tableName = 'dp_keywords';
+$fieldArr = getTableStructure($tableName);
+//echo '<pre>';
+
+$tableXml = array (
+    'fileName' => $tableName . '.xml',
+    'content' => createXML($fieldArr)
+);
+
+if (writeContent($tableXml)) {
+    echo '数据表结构生成完成！';
+}
+
+//print_r($fieldArr);
 
 /*=======================================================*/
+//region getDescription($length = 20)
 /**
  * 随机获取介绍
  * @param  integer $length 设置长度
@@ -132,7 +204,8 @@ function getDescription($length = 20) {
 	
 	return $desc;
 }
-
+//endregion
+//region getSex()
 /**
  * 获取性别类型
  * @return int 
@@ -143,7 +216,8 @@ function getSex(){
 
 	return $sexArr[$key];
 }
-
+//endregion
+//region getPasswd($length = 10)
 /**
  * 生成随机密码
  * @param  integer $length 密码长度
@@ -169,7 +243,8 @@ function getPasswd($length = 10) {
 
 	return $passwdStr;
 }
-
+//endregion
+//region getAddTime()
 /**
  * 获取添加时间
  * @return string
@@ -183,3 +258,38 @@ function getAddTime(){
 
 	return date('Y-m-d H:i:s');
 }
+//endregion
+//region writeContent($content)
+/**
+ * 将内容输入到文件
+ *
+ * @param array $param
+ * @return bool|int|string
+ */
+function writeContent(array $param)
+{
+    if (empty($param)) {
+        return false;
+    }
+
+    $filePath = isset($param['fileName']) ? $param['fileName'] : '';
+    $content = isset($param['content']) ? $param['content'] : '';
+
+    if (!$content) {
+        return '文件内容不能为空！';
+    }
+
+    if (!file_exists($filePath)) {
+        $pos = strrpos($filePath, '/');
+        if ($pos) {
+            $path = substr($filePath, 0, $pos);
+            $mkDir = mkdir($path, 0777, true);
+            if (!$mkDir) {
+                return '指定目录创建失败！';
+            }
+        }
+    }
+
+   return file_put_contents($filePath, $content);
+}
+//endregion
