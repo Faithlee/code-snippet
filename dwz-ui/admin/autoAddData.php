@@ -147,17 +147,24 @@ function createXML($xmlTree)
     foreach ($xmlTree as $dom) {
         $tagArr = array_keys($dom);
         $text = array_values($dom);
-        $xmlWriter->startElement('fieldInfo');
+        $field = array_shift($tagArr);
+        $xmlWriter->startElement($field);
 
         foreach ($tagArr as $key => $tag) {
-            $indent = str_pad('', 4, ' ');
-            $xmlWriter->setIndent(true);
-            $xmlWriter->setIndentString($indent);
-            $xmlWriter->startElement($tag);
-            $xmlWriter->text($text[$key]);
-            $xmlWriter->endElement();
+            $xmlWriter->writeAttribute($tag, $text[$key + 1]);
+            //设置缩进
+//            $indent = str_pad('', 4, ' ');
+//            $xmlWriter->setIndent(true);
+//            $xmlWriter->setIndentString($indent);
+
+//            $xmlWriter->writeElement($tag, $text[$key]);
+//            writeElement()相当于以下实现方式
+//            $xmlWriter->startElement($tag);
+//            $xmlWriter->text($text[$key]);
+//            $xmlWriter->endElement();
         }
 
+        $xmlWriter->text($text[0]);
         $xmlWriter->endElement();
     }
 
