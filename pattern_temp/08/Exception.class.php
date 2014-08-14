@@ -48,5 +48,10 @@ class MyException extends Exception {
 	{
 		return $this->_previous;		
 	}
+}
 
+try {
+	throw new MyException('throw a Exception');
+} catch (MyException $e) {
+	echo $e->getMessage();
 }
