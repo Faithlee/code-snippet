@@ -23,11 +23,37 @@ $writer = new Zend_Log_Writer_Stream('php://output');
 $logger->addWriter($writer);
 
 //$logger->log('Informational message', Zend_Log::INFO);
+
+//INFO
 $logger->info('Informational message');
 
-//$newWriter = new Zend_Log_Writer_Stream('php://output');
-//$loggerNew = new Zend_Log($newWriter);
+//NOTICE
+$logger->notice('Here is A Notice');
 
+//firebug
+//require 'Log/Writer/Firebug.php';
+//$writer = new Zend_Log_Writer_Firebug();
+
+//写入日志到文件
+$logFile = date('Y') . '.log';
+$writer = new Zend_Log_Writer_Stream($logFile);
+$logger = new Zend_Log($writer);
+//$logger->info('Information message');
+
+//踩熄writer
+require 'Log/Writer/Null.php';
+$newWriter = new Zend_Log_Writer_Null();
+$loggerNew = new Zend_Log($newWriter);
+$loggerNew->log('test null', Zend_Log::NOTICE);
+
+//测试mock
+require 'Log/Writer/Mock.php';
+$mock = new Zend_Log_Writer_Mock();
+$loggerMock = new Zend_Log($mock);
+$loggerMock->warn('Warning Message');
+var_dump($mock->events[0]);
+
+die;
 /**
  * 测试从数组构造对象
  */
@@ -44,7 +70,7 @@ $writerConfig = array(
 	),
 
 	//filter参数格式
-	'filterName' => 'Priority',
+	'filterName' => 'Priority', #指定namespace后可以省略全路径
 	'filterNamespace' => 'Zend_Log_Filter',
 
 	//formatter参数格式
