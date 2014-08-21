@@ -51,63 +51,16 @@ require 'Log/Writer/Mock.php';
 $mock = new Zend_Log_Writer_Mock();
 $loggerMock = new Zend_Log($mock);
 $loggerMock->warn('Warning Message');
-var_dump($mock->events[0]);
+print_r($mock->events[0]);
 
-die;
-/**
- * 测试从数组构造对象
- */
+//组合writers
+$writer1 = new Zend_Log_Writer_Stream('log1');
+$writer2 = new Zend_Log_Writer_Stream('log2');
 
-//writer 参数测试
-$writerConfig = array(
-	//writer参数
-	'writerName' => 'Zend_Log_Writer_Stream',
-	'writerNamespace' => '',
-	'writerParams' => array(
-		'stream' => 'log',
-		'mode' => 'a',
-		//'url' => ''
-	),
-
-	//filter参数格式
-	'filterName' => 'Priority', #指定namespace后可以省略全路径
-	'filterNamespace' => 'Zend_Log_Filter',
-
-	//formatter参数格式
-	'formatterName' => 'Simple',
-	'formatterNamespace' => 'Zend_Log_Formatter',
-);
-$defaultNamespace = 'Zend_Log_Writer';
-//$writeRes = $logger->_constructFromConfig('writer', $writerConfig, $defaultNamespace);
-$writeRes = $logger->_constructWriterFromConfig($writerConfig);
-
-//var_dump($writeRes);
-$logger->addWriter($writeRes);
+$loggers = new Zend_Log();
+$loggers->addWriter($writer1);
+$loggers->addWriter($writer2);
+$loggers->info('compose writer message');
 
 
-//filter参数测试
-$filterConfig = array(
-	'filterName' => 'Zend_Log_Filter_Priority',
-	'filterNamespace' => '',
-	'filterParams' => array(
-		//'priority' => 1,
-		//'operator' => '<='
-	),
-);
-$defaultNamespace = 'Zend_Log_Filter';
-$filterRes = $logger->_constructFromConfig('filter', $filterConfig, $defaultNamespace);
-//var_dump($filterRes);
-
-
-//formatter参数测试
-$formatterConfig = array(
-	'formatterName'	=> 'Simple',#有命名空间后可以省略全路径
-	'formatterNamespace' => 'Zend_Log_Formatter',
-	'formatterParams' => array(
-				
-	),
-);
-$defaultNamespace = 'Zend_Log_Formatter';
-$formatterRes = $logger->_constructFromConfig('formatter', $formatterConfig, $defaultNamespace);
-//var_dump($formatterRes);
 
