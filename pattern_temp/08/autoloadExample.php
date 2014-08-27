@@ -10,15 +10,26 @@
 define('BASE_PATH', dirname(__FILE__) . '/');
 require BASE_PATH . 'splAutoload.php';
 
-//splAutoload::register();
+//1.spl_autoload_register() package Demo
+splAutoload::register();
 
 $autoload = new testClass();
 $autoload->trigger();
 
-//set_include_path(get_include_path() . PATH_SEPARATOR . '/root/code/testDir/');
-//echo get_include_path();
-//spl_autoload('testClass');
-//$demo = new testClass();
 
+//2.spl_autoload() Demo
+spl_autoload_register('loadClasses');
+$myClass = new myclass();
+$myClass->trigger();
 
+function loadClasses($className) {
+	$dirPath = dirname(__FILE__) . '/';
+	//echo $dirPath;
+	if (file_exists($dirPath . $className . '.php')) {
+		set_include_path(get_include_path() . PATH_SEPARATOR . $dirPath);
+		//echo get_include_path();
+		//说明：此函数在默认情况下将类名转化为小写
+		spl_autoload($className);
+	}
+}
 
