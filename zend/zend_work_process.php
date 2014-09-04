@@ -13,3 +13,5 @@ Zend 执行流程：
 2. Application::setOptions($config); [Zend_Application_Bootstrap_Bootstrapper] (将自身传入Bootstapper内)
 
 3. Application/Bootstrap/Bootstrap.php --> Application/Bootstrap/BootstrapAbstract.php [bootstrap]
+
+4. 
