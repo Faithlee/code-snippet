@@ -1,0 +1,14 @@
+#!/usr/bin/php
+<?php
+
+//1、以/usr/bin/php标记开头
+
+//2、为文件赋于属性+x
+
+//3、命令行执行脚本
+var_dump($argv);
+
+//获取定义的常量
+print_r(get_defined_constants());
+
+?>
