@@ -8,14 +8,29 @@ class IndexController extends Zend_Controller_Action
         /* Initialize action controller here */
     }
 
+	//执行动作
     public function indexAction()
     {
         // action body
 		//
 		var_dump(__FILE__);
-		//执行动作
+
+		$this->view->title = 'MY ALBUMS';
 		
     }
+
+	/**
+	 * 测试Zend_Layout布局
+	 */
+	public function listAction()
+	{
+		$this->view->title = 'Album List';
+		$this->view->showTitle = 'Zend_Layout Test';
+		$this->view->albums = array(
+			array('title' => 'Rockferry', 'artist' => 'Duffy'),
+			array('title' => 'Keep It simple', 'artist' => 'Van Morrison'),
+		);
+	}
 
 	public function addAction()
 	{
