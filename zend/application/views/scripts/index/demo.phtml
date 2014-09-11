@@ -1,0 +1,30 @@
+<!--todo 共享代码 start-->
+<?php echo $this->render('public/header.phtml') ?>
+<!--todo 共享代码 end-->
+
+<!-- 代码独立部分 start -->
+	<div style="border: 1px solid red; margin-top: 50px;">
+		<h3><?php echo $this->escape($this->showTitle); ?></h3>
+		<?php if ($this->books): ?>
+			<!-- 包含几本书信息的HTML表格. -->
+			<table>
+				<tr>
+					<th>Author</th>
+					<th>Title</th>
+				</tr>
+				<?php foreach ($this->books as $key => $val): ?>
+				<tr>
+					<td><?php echo $this->escape($val['author']) ?></td>
+					<td><?php echo $this->escape($val['title']) ?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<p>There are no books to display.</p>
+		<?php endif; ?>
+	</div>
+<!-- 代码独立部分 end -->
+
+<!--todo 共享代码 start-->
+<?php echo $this->render('public/footer.phtml') ?>
+<!--todo 共享代码 end-->

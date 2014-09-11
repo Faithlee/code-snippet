@@ -1,0 +1,15 @@
+1.引申目录结构，便于管理项目; 
+modules/
+`-- product
+    |-- controllers
+    |   |-- ErrorController.php
+    |   `-- IndexController.php
+    |-- models
+    |   `-- Table.php
+    `-- views
+        `-- scripts
+            |-- error
+            |   `-- error.phtml
+            `-- index
+                |-- demo.phtml
+                `-- index.phtml
