@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title><?php echo $this->escape($this->title); ?></title>
+</head>
+<body>
+	<div id="content">
+		<h1><?php  echo $this->escape($this->title); ?> Start</h1>
+
+		<!-- 在index.php中设置Zend_Layout开启，此处的layout辅助函数 将当前action内容显示content占位符中 -->
+		<?php echo $this->layout()->content; ?>
+
+		<h1><?php echo $this->escape($this->title); ?> End</h1>
+
+	</div>
+</body>
+</html>
