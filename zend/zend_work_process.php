@@ -24,6 +24,11 @@ Zend_Controller:
 Zend_Controller_Front：
 	控制了zend_controller系统的整个工作流；前端控制器模型(FrontController)的解释；
 	处理所有由服务器接收的请求并把请求派发给动作控制器；
+	在index.php重置后，需要设置控制器目录并且分发；
+	前端控制器设置开启视图渲染及错误插件；
+	Zend_Controller_Front::setParam('noViewRender', true): 关闭视图渲染；
+	Zend_Controller_Front::setParam('noErrorHandlers', true)：关闭默认错误处理；
+
 
 Zend_Controller_Request：
 	描述请求环境和提供设置和读取控制器和动作名字及任何请求参数的方法；
