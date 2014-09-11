@@ -1,0 +1,12 @@
+<h3><?php echo $this->escape($this->showTitle); ?></h3>
+<p>
+	相同部分的内容已经在layouts/layout.phtml中实现，
+	此处只关心与正在执行动作相关的显示代码即可；
+</p>
+
+<?php
+	foreach ($this->albums as $album) {
+		echo $album['title'] . ' ' . $album['artist'] . '<br>';
+	}
+?>
+
