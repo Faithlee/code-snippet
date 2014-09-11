@@ -15,7 +15,7 @@ Zend 执行流程：
 3. Application/Bootstrap/Bootstrap.php --> Application/Bootstrap/BootstrapAbstract.php [bootstrap]
 	BootstrapAbstract::setOptions($options) [$options即application.ini配置数组]
 
-4. 
+4. I see
 
 
 
