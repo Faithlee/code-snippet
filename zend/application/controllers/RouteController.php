@@ -69,4 +69,13 @@ class RouteController extends Zend_Controller_Action {
 		echo '从旧URL来新URL!';
 		die;
 	}
+
+
+	public function accountAction()
+	{
+		echo '主机域名路由协议!';
+		echo '过滤了www.domain.com';
+	}
+
+
 }

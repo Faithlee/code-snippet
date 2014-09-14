@@ -29,6 +29,12 @@ Zend_Controller_Front：
 	Zend_Controller_Front::setParam('noViewRender', true): 关闭视图渲染；
 	Zend_Controller_Front::setParam('noErrorHandlers', true)：关闭默认错误处理；
 
+	设置前端控制器访问路径：
+	$front->addControllerDirectory(APPLICATION_PATH . '/controllers', 'default');
+	或
+	$front->setControllerDirectory(array(
+		'default' => APPLICATION_PATH . '/controllers',
+	));
 
 Zend_Controller_Request：
 	描述请求环境和提供设置和读取控制器和动作名字及任何请求参数的方法；
@@ -38,6 +44,10 @@ Zend_Controller_Request：
 路由器router：
 	是个过程，只能发生一次；在最初收到请求并在第一个控制器被派遣之前；
 	主要是基于URL的路径信息将其分解成控制器、动作、和参数；
+	还有决定使用什么样的module.
+
+	路由器：负责管理和运行路由链
+	路由过程(协议)：负责匹配预定义好的路由协议；
 
 派遣器dispatcher：
 	派遣也是个过程，从请求的对象中取出控制器、动作将它们映射到控制器文件目录及控制器中的方法；
