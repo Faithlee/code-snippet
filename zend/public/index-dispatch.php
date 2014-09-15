@@ -31,23 +31,27 @@ $front = Zend_Controller_Front::getInstance();
 
 //$front->setParam('noErrorHandler', true);
 
-$front->setParam('myGlobal', 'globalVar');
-
 #设置前端访问控制器
 //$front->setControllerDirectory(array(
 //	'default' => APPLICATION_PATH . '/controllers',
 //));
 
 #设置前端访问控制器
-$front->addControllerDirectory(APPLICATION_PATH . '/controllers', 'default');
+$front->setControllerDirectory(APPLICATION_PATH . '/controllers');
+
+#获取前端控制器
+$res = $front->getControllerDirectory();
+//print_r($res);
+
 
 //设置全局访问变量，但不明白如何调用
-$front->setParam('myGlobal', 'globalVar');
+#$front->setParam('myGlobal', 'globalVar');
+
+####使用前端控制器获取请求对象(无法获取，不明白原因，可以通过控制器$this->getRequest()获取)
+//$request = $front->getRequest();
+//var_dump($request);
 
 $front->dispatch();
-
-$front->setParam('myGlobal', 'globalVar');
-//Zend_Controller_Front::run(APPLICATION_PATH . '/controller');
 
 /** Zend_Application */
 //require_once 'Zend/Application.php';

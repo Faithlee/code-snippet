@@ -16,18 +16,41 @@ class DispatchController extends Zend_Controller_Action {
 	//	var_dump($myGlobal);
 	}
 
+	#派遣器测试1
 	public function indexAction()
 	{
-		echo '派遣器测试：';
-		
-		//$this->_forward('index', 'index', 'product')		;
+		#'派遣器测试：';
 
 		$request = $this->getRequest();
-		$request->setModuleName('product')
-			->setControllerName('index')
-			->setActionName('index')
-			->setDispatched(false);
 
+		#3.测试模块、动作控制器
+		//$request->setModuleName('photo')
+
+		#2.测试动作控制器 派遣到LogController::findAction()
+		//$request->setControllerName('route')
+		//	->setActionName('static')
+		//	->setDispatched(false);
+	
+		//$this->_helper->actionStack($request);
+
+		#1.测试action，派遣到当前action foo
+		//$request->setActionName('foo')
+		//		->setDispatched(false);
+
+		#获取请求对象
+		//$request = $this->getRequest(); print_r($request); die;
+		
+	}
+
+	#派遣器测试2:
+	public function test2Action()
+	{
+		//$this->_forward('index', 'index', 'product');
+	}
+
+	public function fooAction()
+	{
+		echo '派遣器测试1:index 派遣到我这了！';
 		die;
 	}
 }

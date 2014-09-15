@@ -36,10 +36,20 @@ Zend_Controller_Front：
 		'default' => APPLICATION_PATH . '/controllers',
 	));
 
+	问题：使用前端控制器实现时，无法引入models中的资源？
+	
+
 Zend_Controller_Request：
 	描述请求环境和提供设置和读取控制器和动作名字及任何请求参数的方法；
 	跟踪动作是否被派遣；
 	允许路由器从请求环境中读取信息；	
+	
+	获取请求对象：
+		在前端控制器中：
+		$front->getRequest();
+		在动作控制器中：
+		$this->getRequest();
+
 
 路由器router：
 	是个过程，只能发生一次；在最初收到请求并在第一个控制器被派遣之前；
