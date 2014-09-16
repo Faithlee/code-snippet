@@ -1,0 +1,17 @@
+1、引申的目录结构，方便项目的管理
+目录结构如下:
+	default
+	|-- README
+	|-- controllers
+	|   |-- ErrorController.php
+	|   `-- IndexController.php
+	|-- models
+	|   `-- Table.php
+	`-- views
+	    `-- scripts
+			|-- error
+			|   `-- error.phtml
+			`-- index
+				|-- demo.phtml
+				`-- index.phtml
+
