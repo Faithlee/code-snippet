@@ -1,4 +1,10 @@
 <?php
+/**
+ * 基于三类目录前端控制器的运程流程
+ */
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 date_default_timezone_set('Etc/GMT-8');
 
 // Define path to application directory
@@ -20,8 +26,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
 include 'Zend/Loader.php';
 @Zend_Loader::registerAutoload();
 
-include APPLICATION_PATH . '/Bootstrap.php';
-
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
@@ -31,22 +35,22 @@ $application = new Zend_Application(
     APPLICATION_PATH . '/configs/application.ini'
 );
 
-//默认bootstrap引导程序启动
-//$application->bootstrap()
-//            ->run();
-
-###原生方式设置引导程序
-//$bootstrap = new Bootstrap($application);
-//$bootstrap->bootstrap();
-
-###下面的步骤相当于run()
 $front = Zend_Controller_Front::getInstance();
 
-$front->setParam('noViewRenderer', true);
+###基于传统目录 application/xxx 管理方式
+$front->setControllerDirectory(array(
+	'default' => APPLICATION_PATH . '/controllers',		#设置默认控制器路径
+	'photo' => APPLICATION_PATH . '/photo/controllers', #设置传统控制器路径
+	'user' => APPLICATION_PATH . '/user/controllers'	#设置传统控制器路径
+));
 
-$front->setControllerDirectory(APPLICATION_PATH . '/controllers');
+###基于modules目录结构 application/modules/xxx 管理方式
+$front->addModuleDirectory(APPLICATION_PATH . '/modules');
 
-$front->setParam('bootstrap', $bootstrap);
+$front->setParam('noErrorHandler', true);
+
+//确定用法
+$front->setBaseUrl('/dwz/public');
 
 $front->dispatch();
 
