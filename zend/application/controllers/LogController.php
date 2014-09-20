@@ -10,7 +10,16 @@
 class LogController extends Zend_Controller_Action {
 	public function init()
 	{
-		Zend_Loader::loadClass('Table');
+		###此处设置适配器比在入口处理设置要减小对数据库的压力，
+		###可放在BaseController中，继承此类即可
+		//$url = constant("APPLICATION_PATH").DIRECTORY_SEPARATOR.'configs'.DIRECTORY_SEPARATOR.'application.ini';  
+		$url = APPLICATION_PATH . '/configs/application.ini';
+		$dbconfig = new  Zend_Config_Ini($url, "development");  
+		$db = Zend_Db::factory($dbconfig->resources->db);  
+		$db->query('SET  NAMES  UTF8');  
+
+		//设置db适配器
+		Zend_Db_Table::setDefaultAdapter($db);
 	}
 
 	/**
@@ -24,14 +33,24 @@ class LogController extends Zend_Controller_Action {
 		$logTable = new Table();
 		$param = $this->_getParam('username');
 
-		$request = $this->getRequest();
-		$username = $request->getParam('username');
-		$name = $this->_request->get('username');
-		var_dump($param, $username, $name);
+		$arr = range(1, 10);
+		$row = $logTable->find($arr);
+		$this->view->row = $row;
+
+		//print_r($row);
+		//$request = $this->getRequest();
+		//$username = $request->getParam('username');
+		//$name = $this->_request->get('username');
+		//var_dump($param, $username, $name);
 
 		//print_r($logTable);die;
 		echo 'setup 设置成功';
-		die;
+		
+		//todo 不明白render的用法，无法渲染到指定的目录中；
+		//$this->view->setScriptPath(APPLICATION_PATH . '/views/scripts/index/log');
+
+		###输入到新模板
+		//$this->view->render('log/table.php');
 	}
 
 	/**
