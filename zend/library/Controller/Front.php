@@ -18,6 +18,8 @@ class Front {
 
 	protected $_invokeParams = array();
 
+	protected $_moduleControllerDirectoryName = 'controllers';
+
 	protected $_plugins = null;
 
 	protected $_request = null;
@@ -115,7 +117,7 @@ class Front {
 
 	public function addControllerDirectory($directory, $module = null)
 	{
-		//todo 	
+		//todo 	派遣器设置目录
 	}
 	
 	/*}}}*/
@@ -148,19 +150,58 @@ class Front {
 	/*}}}*/
 	/*{{{public function addModuleDirectory()*/
 	
+	/**
+	 * $path = APPLICATION_PATH . '/modules'
+	 */
 	public function addModuleDirectory($path)
 	{
 		try {
-			$dir = new DirectoryIterator($path);	
+			$dir = new DirectoryIterator($path);
 		} catch (Exception $e) {
 			require_once 'Zend/Controller/Exception.php';
+			throw new Zend_Controller_Exception("Directory $path not readable", 0, $e);
 		}
 
+		foreach ($dir as $file)	{
+			if ($file->isDot() || !$file->isDir()) {
+				continue;
+			}
 
+			//product
+			$module = $file->getFilename();
+
+			// Don't use SCCS directories as modules @todo 不明白
+			if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
+				continue;
+			}
+
+			$moduleDir = $file->getPathname() . DIRECTORY_SEPARATOR . $this->getMoDuleControllerDirectoryName();
+			$this->addControllerDirectory($moduleDir, $module);
+		}
 		
+		return $this;
 	}
 
 	/*}}}*/
+
+
+	/*{{{public function setModuleControllerDirectoryName()*/
+
+	public function setModuleControllerDirectoryName($name = 'controllers')
+	{
+		$this->_moduleControllerDirectoryName = (string)$name;
+	}
+
+	/*}}}*/
+	/*{{{public function getModuleControllerDirectoryName()*/
+
+	public function getModuleControllerDirectoryName()
+	{
+		return $this->_moduleControllerDirectoryName;
+	}
+	
+	/*}}}*/
+
 
 
 }
