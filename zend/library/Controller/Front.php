@@ -183,6 +183,62 @@ class Front {
 	}
 
 	/*}}}*/
+	/*{{{public function getModuleDirectory()*/
+
+	public function getModuleDirectory($module = null)	
+	{
+		if (null == $module) {
+			$request = $this->getRequest();
+			if (null != $request) {
+				$module = $this->getRequest()->getModuleName();
+			}
+			if (empty($module)) {
+				$module = $this->getDispatcher()->getDefaultModule();
+			}
+		}
+
+		$controllerDir = $this->getControllerDirectory($module);
+		if ((null === $controllerDir) || !is_string($controllerDir)) {
+			return null;
+		}
+
+		return dirname($controllerDir);
+	}
+
+	/*}}}*/
+	
+	/*{{{public function setRequest()*/
+
+	public function setRequest($request) 
+	{
+		if (is_string($request)) {
+			if (!class_exists($request)) {
+				require_once 'Zend/Loader.php';
+				Zend_Loader::loadClass($request);
+			}
+
+			$request = new $request();
+		}
+
+		if ($request instanceof Zend_Controller_Request_Abstract) {
+			require_once 'Zend/Controller/Exception.php';
+			throw new Zend_Controller_Exception('Invalid request class');
+		}
+
+		$this->_request = $request;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getRequest()*/
+
+	public function getRequest()
+	{
+		return $this->_request;
+	}
+	
+	/*}}}*/
 
 
 	/*{{{public function setModuleControllerDirectoryName()*/
