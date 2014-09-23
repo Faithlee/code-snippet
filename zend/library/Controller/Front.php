@@ -258,8 +258,6 @@ class Front {
 	
 	/*}}}*/
 
-
-
 }
 
 $front = Front::getInstance();
