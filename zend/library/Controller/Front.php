@@ -206,7 +206,38 @@ class Front {
 	}
 
 	/*}}}*/
+	/*{{{public function setModuleControllerDirectory()*/
 	
+	//set the directory name within a module containing controllers
+	public function setModuleControllerDirectory($name = 'controllers')
+	{
+		$this->_moduleControllerDirectoryName = (string) $name;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getModuleControllerDirectoryName()*/
+
+	//get the directory name within a module containing controllers
+	public function getModuleControllerDirectoryName()
+	{
+		return $this->_moduleControllerDirectoryName;	
+	}
+	
+	/*}}}*/
+	/*{{{public function setDefaultControllerName()*/
+	
+	//set default controller
+	public function setDefaultControllerName($controller)
+	{
+		$dispatcher = $this->getDispatcher();
+
+		
+	}
+	
+	/*}}}*/
+
 	/*{{{public function setRequest()*/
 
 	public function setRequest($request) 
