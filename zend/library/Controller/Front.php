@@ -41,6 +41,7 @@ class Front {
 	
 	}
 		
+	/*{{{public static function getInstance()*/
 	/**
 	 * getInstance 单件模式
 	 * 
@@ -56,7 +57,10 @@ class Front {
 		
 		return self::$_instance;	
 	}
-	
+
+	/*}}}*/
+	/*{{{public function resetInstance()*/
+
 	public function resetInstance()	
 	{
 		$reflection = new ReflectionObject($this);
@@ -90,6 +94,7 @@ class Front {
 		Zend_Controller_Action_HelperBroker::resetHelpers();
 	}
 
+	/*}}}*/
 	/*{{{public function getDispatcher()*/
 	/**
 	 * getDispatcher 获取标准分发器
