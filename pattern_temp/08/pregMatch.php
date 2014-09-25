@@ -7,6 +7,8 @@
  * @CTime: Tue 19 Aug 2014 10:31:05 PM CST
  */
 
+error_reporting(E_ALL ^ E_WARNING);
+
 //如果正则表达式是无效的，则会返回false
 //invalid
 $regexp = 'php';
@@ -48,5 +50,14 @@ $format = new Format();
 $format->foreachFormat($formatter1);
 
 
+###设置的字符串只能以小写字母开头
+$dir = 'abc'; #right
+
+$dir = '1abc'; #wrong
+
+$dir = '#hhh'; #wrong
+if (preg_match('/^[^a-z]/', $dir)) {
+	throw new Exception('invalid directory name');
+}
 
 

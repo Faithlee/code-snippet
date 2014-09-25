@@ -7,6 +7,11 @@
  * @CTime: Mon 22 Sep 2014 10:34:09 PM CST
  */
 
+//require_once 'Zend/Loader.php';
+
+
+//require_once ''
+
 class Front {
 	protected $_baseUrl = null;
 
@@ -113,16 +118,22 @@ class Front {
 	}
 	/*}}}*/
 	/*{{{public static function run()*/
-	public static function run()
+
+	//
+	public static function run($controllerDirectory)
 	{
-	
+		self::getInstance()	
+			->setControllerDirectory($controllerDirectory)
+			->dispatch();
 	}
+
 	/*}}}*/
 	/*{{{public function addControllerDirectory()*/
 
 	public function addControllerDirectory($directory, $module = null)
 	{
 		//todo 	派遣器设置目录
+
 	}
 	
 	/*}}}*/
@@ -172,15 +183,16 @@ class Front {
 				continue;
 			}
 
-			//product
+			//product：getFilename：如果是目录中无文件，则返回最后一个目录名句，有则返回文件名
 			$module = $file->getFilename();
 
-			// Don't use SCCS directories as modules @todo 不明白
+			// Don't use SCCS directories as modules @todo 只能以小写字母开头
 			if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
 				continue;
 			}
 
 			$moduleDir = $file->getPathname() . DIRECTORY_SEPARATOR . $this->getMoDuleControllerDirectoryName();
+
 			$this->addControllerDirectory($moduleDir, $module);
 		}
 		
@@ -211,10 +223,10 @@ class Front {
 	}
 
 	/*}}}*/
-	/*{{{public function setModuleControllerDirectory()*/
+	/*{{{public function setModuleControllerDirectoryName()*/
 	
 	//set the directory name within a module containing controllers
-	public function setModuleControllerDirectory($name = 'controllers')
+	public function setModuleControllerDirectoryName($name = 'controllers')
 	{
 		$this->_moduleControllerDirectoryName = (string) $name;
 
@@ -237,8 +249,9 @@ class Front {
 	public function setDefaultControllerName($controller)
 	{
 		$dispatcher = $this->getDispatcher();
-
+		$dispatcher->setDefaultControllerName($controller);
 		
+		return $this;
 	}
 	
 	/*}}}*/
@@ -279,22 +292,17 @@ class Front {
 
 	/*{{{public function setModuleControllerDirectoryName()*/
 
-	public function setModuleControllerDirectoryName($name = 'controllers')
-	{
-		$this->_moduleControllerDirectoryName = (string)$name;
-	}
+	
 
 	/*}}}*/
 	/*{{{public function getModuleControllerDirectoryName()*/
 
-	public function getModuleControllerDirectoryName()
-	{
-		return $this->_moduleControllerDirectoryName;
-	}
+	
 	
 	/*}}}*/
 
 }
 
 $front = Front::getInstance();
-$front->resetInstance();
+//$front->resetInstance();
+$front->addModuleDirectory('/usr/local/dev_swan/web/dwz/application/modules');
