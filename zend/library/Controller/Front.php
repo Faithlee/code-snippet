@@ -110,7 +110,7 @@ class Front {
 	public function getDispatcher()
 	{
 		if (!$this->_dispatcher instanceof Zend_Controller_Dispatcher_Interface) {
-			require 'Dispatcher/Standard.php';
+			require 'Zend/Controller/Dispatcher/Standard.php';
 			$this->_dispatcher = new Zend_Controller_Dispatcher_Standard();
 		}
 
@@ -129,38 +129,43 @@ class Front {
 
 	/*}}}*/
 	/*{{{public function addControllerDirectory()*/
-
+	
+	//add a controller directory to the controller directory stack
 	public function addControllerDirectory($directory, $module = null)
 	{
 		//todo 	派遣器设置目录
-
+		$this->getDispatcher()->addControllerDirectory($directory, $module);
+	
+		return $this;
 	}
 	
 	/*}}}*/
 	/*{{{public function setControllerDirectory()*/
 
-	//todo 
+	//set dispatcher controller Directory 
 	public function setControllerDirectory($directory, $module = null)
 	{
-		
+		$this->getDispatcher()->setControllerDirectory($directory, $module);
+
+		return $this;
 	}
 
 	/*}}}*/
 	/*{{{public function getControllerDirectory()*/
 
-	//todo
+	//retrieve controller Directory
 	public function getControllerDirectory($name = null)
 	{
-			
+		return $this->getDispatcher()->getControllerDirectory($name);
 	}
 
 	/*}}}*/
 	/*{{{public function removeControllerDirectory()*/
 
-	//todo 
-	public function removeControllerDirectory()
+	//retrieve a controller directory by module name 
+	public function removeControllerDirectory($module)
 	{
-	
+		return $this->getDispatcher()->removeControllerDirectory($module);
 	}
 
 	/*}}}*/

@@ -172,7 +172,4 @@ abstract Zend_Controller_Response_Abstract {
 	/*}}}*/
 
 	/*}}}*/
-
-
-
 }

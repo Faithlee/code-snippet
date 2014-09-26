@@ -111,7 +111,6 @@ abstract class Zend_Controller_Request_Abstract {
 		return $this->_moduleKey;
 	}
 
-
 	/*}}}*/
 	/*{{{public function setModuleKey()*/
 
@@ -185,7 +184,6 @@ abstract class Zend_Controller_Request_Abstract {
 		return $this->_params;
 	}
 	
-
 	/*}}}*/
 	/*{{{public function getUserParam()*/
 
@@ -248,9 +246,9 @@ abstract class Zend_Controller_Request_Abstract {
 	}
 	
 	/*}}}*/
-	/*{{{public function setDispateces()*/
+	/*{{{public function setDispatched()*/
 
-	public function setDispateces()
+	public function setDispatched()
 	{
 		$this->_dispatched = $flag ? true : false;
 
