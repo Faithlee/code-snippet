@@ -209,16 +209,20 @@ class Front {
 
 	public function getModuleDirectory($module = null)	
 	{
+		#module不传时返回默认模块，即框架初始时模块APPLICATION_PATH
 		if (null == $module) {
 			$request = $this->getRequest();
 			if (null != $request) {
+				#retrieve module @todo request与dispatch获取的结果不一样
 				$module = $this->getRequest()->getModuleName();
 			}
+
 			if (empty($module)) {
+				#default
 				$module = $this->getDispatcher()->getDefaultModule();
 			}
 		}
-
+		
 		$controllerDir = $this->getControllerDirectory($module);
 		if ((null === $controllerDir) || !is_string($controllerDir)) {
 			return null;
@@ -254,15 +258,66 @@ class Front {
 	public function setDefaultControllerName($controller)
 	{
 		$dispatcher = $this->getDispatcher();
+		#modify default controller index to $controller
 		$dispatcher->setDefaultControllerName($controller);
 		
 		return $this;
 	}
 	
 	/*}}}*/
+	/*{{{public function getDefaultControllerName()*/
 
+	#retrieve default controller name index
+	public function getDefaultControllerName()
+	{
+		return $this->getDispatcher()->getDefaultControllerName();
+	}
+
+	/*}}}*/
+	/*{{{public function setDefaultAction()*/
+	
+	//retrieve the default action index
+	public function setDefaultAction($action)
+	{
+		$dispatcher = $this->getDispatcher();
+		$dispatcher->setDefaultAction($action);
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getDefaultAction()*/
+
+	#retrieve default action index
+	public function getDefaultAction()
+	{
+		return $this->getDispatcher()->getDefaultAction();
+	}
+
+	/*}}}*/
+	/*{{{public function setDefaultModule()*/
+
+	public function setDefaultModule($module)
+	{
+		$dispatcher = $this->getDispatcher();
+		$dispatcher->setDefaultModule($module);
+
+		return $this;
+	}
+
+	/*}}}*/
+	/*{{{public function getDefaultModule()*/
+
+	#retrieve default module default [default => APPLICATION_PATH]
+	public function getDefaultModule()
+	{
+		return $this->getDispatcher()->getDefaultModule();
+	}
+	
+	/*}}}*/
 	/*{{{public function setRequest()*/
 
+	#set request class/object
 	public function setRequest($request) 
 	{
 		if (is_string($request)) {
@@ -287,9 +342,34 @@ class Front {
 	/*}}}*/
 	/*{{{public function getRequest()*/
 
+	#retrieve request
 	public function getRequest()
 	{
 		return $this->_request;
+	}
+	
+	/*}}}*/
+	/*{{{public function setRouter()*/
+
+	#set router object/class
+	public function setRouter($router)
+	{
+		if (is_string($router))	{
+			if (!class_exists($router))	{
+				require_once 'Zend/Loader.php';
+				Zend_Loader::loadClass($router);
+			}
+
+			$router = new $router();
+		}
+
+		if (!$router instanceof Zend_Controller_Router_Interface) {
+			require_once 'Zend/Controller/Exception.php';
+			throw new Zend_Controller_Exception('Invalid router class');
+		}
+
+		$router->setFrontController($this);
+		$this->_router = $router;
 	}
 	
 	/*}}}*/

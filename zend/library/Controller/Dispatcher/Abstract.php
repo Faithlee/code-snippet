@@ -35,7 +35,7 @@ abstract class Zend_Controller_Dispatcher_Abstract implements Zend_Controller_Di
 	//word delimiter characters
 	protected $_wordDelimiter = array('-', '.');
 
-	/*{{{*/
+	/*{{{public function __construct()*/
 
 	public function __construct(array $params = array())
 	{
@@ -53,7 +53,7 @@ abstract class Zend_Controller_Dispatcher_Abstract implements Zend_Controller_Di
 	
 	/*}}}*/
 
-	/*{{{*/
+	/*{{{protected function _formatName()*/
 
 	//format a string from a uri into a php-friendly name
 	protected function _formatName($unformatted, $isAction = false)
@@ -109,9 +109,57 @@ abstract class Zend_Controller_Dispatcher_Abstract implements Zend_Controller_Di
 
 	/*}}}*/
 
-
-	/*{{{public function getDefaultModule()*/
+	/*{{{public function getDefaultControllerName()*/
 	
+	#retrieve default controller index
+	public function getDefaultControllerName()	
+	{
+		return $this->_defaultController;
+	}
+
+	/*}}}*/
+	/*{{{public function setDefaultControllerName()*/
+
+	public function setDefaultControllerName($controller)
+	{
+		$this->_defaultController = (string) $controller;
+
+		return $this;
+	}
+
+	/*}}}*/
+	/*{{{public function setDefaultAction()*/
+	
+	#set default action index to $action
+	public function setDefaultAction($action)
+	{
+		$this->_defaultAction = (string) $action;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getDefaultAction()*/
+
+	public function getDefaultAction()
+	{
+		return $this->_defaultAction;	
+	}
+
+	/*}}}*/
+	/*{{{public function setDefaultModule()*/
+
+	public function setDefaultModule($module)
+	{
+		$this->_defaultModule = (string) $module;
+
+		return $this;
+	}
+
+	/*}}}*/
+	/*{{{public function getDefaultModule()*/
+
+	#Front::getModuleDirectory()
 	public function getDefaultModule()
 	{
 		//default
