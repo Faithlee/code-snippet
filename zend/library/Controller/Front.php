@@ -100,23 +100,6 @@ class Front {
 	}
 
 	/*}}}*/
-	/*{{{public function getDispatcher()*/
-	/**
-	 * getDispatcher 获取标准分发器
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getDispatcher()
-	{
-		if (!$this->_dispatcher instanceof Zend_Controller_Dispatcher_Interface) {
-			require 'Zend/Controller/Dispatcher/Standard.php';
-			$this->_dispatcher = new Zend_Controller_Dispatcher_Standard();
-		}
-
-		return $this->_dispatcher;
-	}
-	/*}}}*/
 	/*{{{public static function run()*/
 
 	//
@@ -373,7 +356,200 @@ class Front {
 	}
 	
 	/*}}}*/
+	/*{{{public function getRouter()*/
+	
+	//return Router object
+	public function getRouter()
+	{
+		if (null == $this->_router)	 {
+			require_once 'Zend/Controller/Router/Rewrite.php';
+			$this->setRouter(new Zend_Controller_Router_Rewrite());
+		}
 
+		return $this->_router;
+	}
+	
+	/*}}}*/
+	/*{{{public function setBaseUrl()*/
+
+	#set the base url used for requests 
+	public function setBaseUrl($base = null)
+	{
+		if (!is_string($base) && (null !== $base)) {
+			require_once 'Zend/Controller/Exception.php';
+
+			throw new Zend_Controller_Exception('Rewrite base muse be a string');
+		}
+
+		$this->_baseUrl = $base;
+
+		if (null !== ($request = $this->getRequest()) && (method_exists($request, 'setBaseUrl'))) {
+			$request->setBaseUrl($base);
+		}
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getBaseUrl()*/
+
+	#retrieve the currently set base url
+	public function getBaseUrl()
+	{
+		$request = $this->getRequest();
+
+		if (null !== $request && method_exists($request, 'getBaseUrl')) {
+			return $request->getBaseUrl();
+		}
+
+		return $this->_baseUrl;
+	}
+	
+	/*}}}*/
+	/*{{{public function setDispatcher()*/
+
+	#set the dispatcher object
+	public function setDispatcher(Zend_Controller_Dispatcher_Interface $dispatcher)
+	{
+		$this->_dipatcher = $dispatcher;			
+
+		return $this;
+	}
+
+	/*}}}*/
+	/*{{{public function getDispatcher()*/
+
+	/**
+	 * getDispatcher 获取标准分发器
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getDispatcher()
+	{
+		#分发器有问题取默认分发器
+		if (!$this->_dispatcher instanceof Zend_Controller_Dispatcher_Interface) {
+			require 'Zend/Controller/Dispatcher/Standard.php';
+			$this->_dispatcher = new Zend_Controller_Dispatcher_Standard();
+		}
+
+		return $this->_dispatcher;
+	}
+
+	/*}}}*/
+	/*{{{public function setResponse()*/
+
+	#set response class/object for action response and headers
+	public function setResponse($response)
+	{
+		if (is_string($response)) {
+			if (!class_exists($response)) {
+				require_once 'Zend/Loader.php';
+				Zend_Loader::loadClass($response);
+			}
+				
+			$response = new $response();
+		}
+
+		if (!$response instanceof Zend_Controller_Response_Abstract) {
+			require_once 'Zend/Controller/Exception.php';
+
+			throw new Zend_Controller_Exception('Invalid reponse class');
+		}
+
+		$this->_response = $response;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getResponse()*/
+
+	#retrieve the response object
+	public function getResponse()
+	{
+		return $this->_response;
+	}
+	
+	/*}}}*/
+	/*{{{public function setParam()*/
+
+	#add or moidify a parameter to use 
+	public function setParam($name, $value)
+	{
+		$name = (string) $name;
+		$this->_invokeParams[$name] = $value;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function setParams()*/
+
+	public function setParams(array $params)
+	{
+		$this->_invokeParams = array_merge($this->_invokeParams, $params);
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getParam()*/
+
+	#retrieve a single parameter from stack
+	public function getParam($name)
+	{
+		if (isset($this->_invokeParams[$name])) {
+			return $this->_invokeParams[$name];
+		}
+
+		return null;
+	}
+
+
+	/*}}}*/
+	/*{{{public function getParams()*/
+
+	#retrieve action controller instantiation parameters
+	public function getParams()
+	{
+		return $this->_invokeParams;
+	}
+
+	/*}}}*/
+	/*{{{public function clearParams()*/
+	
+	#clear the controller stack
+	public function clearParams($name = null) 
+	{
+		if (null === $name)	{
+			$this->_invokeParams = array();
+		} else if (is_string($name) && isset($this->_invokeParams[$name])) {
+			unset($this->_invokeParams[$name]);
+		} else if (is_array($name)) {
+			foreach ($name as $key)	{
+				if (is_string($key) && isset($this->_invokeParams[$key])) {
+					unset($this->_invokeParams[$key]);
+				}
+			}
+		}
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function registerPlugin()*/
+	
+	#register a plugin
+	public function registerPlugin(Zend_Controller_Plugin_Abstract $plugin, $stackIndex = null)
+	{
+		$this->_plugins->registerPlugin($plugin, $stackIndex);
+
+		return $this;
+	}
+
+
+	/*}}}*/
 
 	/*{{{public function setModuleControllerDirectoryName()*/
 
