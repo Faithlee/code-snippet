@@ -550,6 +550,29 @@ class Front {
 
 
 	/*}}}*/
+	/*{{{public function unregisterPlugin()*/
+	
+	#unregister a plugin
+	public function unregisterPlugin($plugin)
+	{
+		$this->_plugins->unregisterPlugin($plugin);
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getPlugin()*/
+
+	#retrieve a plugin or plugins by class	
+	public function getPlugin($class)
+	{
+		return $this->_plugins->getPlugin($class);
+	}
+	
+	/*}}}*/
+
+
+
 
 	/*{{{public function setModuleControllerDirectoryName()*/
 
