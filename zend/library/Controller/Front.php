@@ -570,21 +570,100 @@ class Front {
 	}
 	
 	/*}}}*/
+	/*{{{public function getPlugins()*/
 
-
-
-
-	/*{{{public function setModuleControllerDirectoryName()*/
-
-	
-
-	/*}}}*/
-	/*{{{public function getModuleControllerDirectoryName()*/
-
-	
+	public function getPlugins()	
+	{
+		return $this->_plugins->getPlugins();
+	}
 	
 	/*}}}*/
+	/*{{{public function throwExceptions()*/
+	
+	public function throwExceptions($flag = null)
+	{
+		if ($flag !== null) {
+			$this->_throwExceptions = (bool) $flag;
+			return $this;
+		}
 
+		return $this->_throwExceptions;
+	}
+	
+	/*}}}*/
+	/*{{{public function returnResponse()*/
+
+	public function returnResponse($flag = null)
+	{
+		if (true === $flag) {
+			$this->_returnResponse = true;	
+			return $this;
+		} else if (false === $flag) {
+			$this->_returnResponse = false;
+			return $this;
+		}
+
+		return $this->_returnResponse;
+	}
+	
+	/*}}}*/
+	/*{{{public function dispatch()*/
+
+	#dispatch an http request to a controller/action
+	public function dispatch(Zend_Controllder_Request_Abstract $request = null, Zend_Controller_Response_Abstract $response = null)
+	{
+		if (!$this->getParam('noErrorHandle') && !$this->_plugins->hasPlugin('Zend_Controller_Plugin_ErrorHandler')) {
+			#register with stack index of 100
+			require_once 'Zend/Controller/Plugin/ErrorHandler.php';
+			$this->_plugins->registerPlugin(new Zend_Controller_Plugin_ErrorHandler(), 100);
+		}
+
+		if (!$this->getParam('noViewRenderer') && !Zend_Controller_Action_HelpBroker::hasHelper('viewRenderer')) {
+			require_once 'Zend/Controller/Action/Helper/ViewRenderer.php';
+			Zend_Controller_Action_HelperBroker::getStack()->offsetSet(-80, new Zend_Controller_Action_Helper_ViewRenderer());
+		}
+		
+		#instantiate default request object if none provided 
+		if (null !== $request) {
+			$this->setRequest($request);
+		} else if (null === $request && (null === ($request = $this->getRequest()))) {
+			require_once 'Zend/Controller/Request/Http.php';
+			$request = new Zend_Controller_Request_Http();
+			$this->setRequest($request);
+		}
+		
+		#set base url of request object
+		if (is_callable(array($this->_request, 'setBaseUrl'))) {
+			if (null !== $this->_baseUrl) {
+				$this->_request->setBaseUrl($this->_baseUrl);
+			}
+		}
+
+		#instantiate default response object 
+		if (null !== $response) {
+			$this->setResponse($response);
+		} else if (null === $response && (null === $this->_response = $this->getResponse())) {
+			require_once 'Zend/Controller/Response/Http.php';
+			$response = new Zend_Controller_Response_Http();
+			$this->setResponse($response);
+		}
+
+		$this->_plugins->setRequest($this->_request)->setResponse($this->_response);
+
+		#initialize router
+		$router = $this->getRouter();
+		$router->setParams($this->getParams());
+
+		#initialize dispatcher
+		$dipatcher = $this->getDispatcher()	;
+		$dispatcher->setParams($this->getParams())
+				->setResponse($this->_response);
+
+
+		#begin dipatch
+	}
+
+	/*}}}*/
 }
 
 $front = Front::getInstance();
