@@ -154,7 +154,6 @@ abstract Zend_Controller_Response_Abstract {
 	}
 	
 	/*}}}*/
-
 	/*{{{public function canSendHeaders()*/
 
 	//whethere send headers?

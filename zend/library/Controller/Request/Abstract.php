@@ -263,6 +263,5 @@ abstract class Zend_Controller_Request_Abstract {
 		return $this->_dispatched;
 	}
 
-
 	/*}}}*/
 }

@@ -657,10 +657,82 @@ class Front {
 		#initialize dispatcher
 		$dipatcher = $this->getDispatcher()	;
 		$dispatcher->setParams($this->getParams())
-				->setResponse($this->_response);
-
+  				   ->setResponse($this->_response);
 
 		#begin dipatch
+		try {
+			/**
+			 * route request to controller/action if a route is provided
+			 */
+			$this->_plugins->routeStartup($this->_request);
+			try {
+				$router->route($this->_request);
+			} catch (Exception $e) {
+				if ($this->throwExceptions()){
+					throw $e;
+				}
+
+				$this->_response->setException($e);
+			}
+
+			/**
+			 * plugin of route completion
+			 */
+			$this->_plugins->routeShutdown($this->_request);
+			
+			/**
+			 * plugin of dispatch loop startup
+			 */
+			$this->_plugins->dispatchLoopStartup($this->_request);
+			
+			do {
+				$this->_request->setDispatched(true);
+
+				/**
+				 * notify plugins of dispatch startup
+				 */	
+				$this->_plugins->preDispatch($this->_request);
+
+				if (!$this->_request->isDispatched()) {
+					continue;
+				}
+
+				try {
+					$dipatcher->dispatch($this->_request, $this->_response);
+				} catch (Exception $e) {
+					if ($this->throwExceptions()) {
+						throw $e;
+					}
+
+					$this->_response->setException($e);
+				}
+
+				$this->_plugins->postDispatch($this->_request);
+			} while (!$this->_request->isDispatched());
+				
+		} catch (Exception $e) {
+			if ($this->throwExceptions()) {
+				throw $e;
+			}
+
+			$this->_response->setException($e);
+		}
+
+		try {
+			$this->_plugins->dispatchLoopShutdown();
+		} catch (Exception $e) {
+			if ($this->throwExceptins()) {
+				throw $e;
+			}
+
+			$this->_response->setException($e);
+		}
+
+		if ($this->returnResponse()) {
+			return $this->_response;
+		}
+
+		$this->_response->sendResponse();
 	}
 
 	/*}}}*/

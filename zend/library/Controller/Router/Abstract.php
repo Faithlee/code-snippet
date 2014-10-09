@@ -19,7 +19,7 @@ abstract class Zend_Controller_Router_Abstract implements Zend_Controller_Router
 	prtected $_invokeParams = array();
 
 	/*}}}*/
-
+	/*{{{ functions*/
 	/*{{{public function __construct()*/
 
 	public function __construct(array $params = array())
@@ -28,7 +28,69 @@ abstract class Zend_Controller_Router_Abstract implements Zend_Controller_Router
 	}
 
 	/*}}}*/
-	//todo router process and route
+	/*{{{public function setParam()*/
+
+	#add or modify a parameter to use when instantiating an action controller
+	public function setParam($name, $value) 
+	{
+		$this->_invokeParams[$name]	= $value;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function setParams()*/
+
+	#set parameters to pass to action controller controllers
+	public function setParams(array $params)
+	{
+		$this->_invokeParams = array_merge($this->_invokeParams, $params);
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getParam()*/
+
+	public function getParam($name)
+	{
+		if (isset($this->_invokeParams[$name]))	{
+			return $this->_invokeParams[$name];
+		}
+
+		return null;
+	}
+	
+	/*}}}*/
+	/*{{{public function getParams()*/
+
+	#retrieve all parameters
+	public function getParams()
+	{
+		return $this->_invokeParams;
+	}
+	
+	/*}}}*/
+	/*{{{public function clearParams()*/
+
+	public function clearParams($name = null)
+	{
+		if (null === $name)	{
+			$this->_invokeParams = array();
+		} else if (is_string($name) && isset($this->_invokeParams[$name])) {
+			unset($this->_invokeParams[$name]);
+		} else if (is_array($name)){
+			foreach ($name as $key) {
+				if (is_string($key) && isset($this->_invokeParams[$key])) {
+					unset($this->_invokeParams[$key]);
+				}
+			}
+		}
+
+		return $this;
+	}
+	
+	/*}}}*/
 	/*{{{public function getFrontController()*/
 
 	//retrieve front controller
@@ -56,10 +118,5 @@ abstract class Zend_Controller_Router_Abstract implements Zend_Controller_Router
 	}
 	
 	/*}}}*/
-
+	/*}}}*/
 }
-
-
-
-
-
