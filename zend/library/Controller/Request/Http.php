@@ -20,6 +20,33 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	/*}}}*/
 	/*{{{functions*/
 
+
+
+	/*{{{public function setQuery()*/
+
+	public function setQuery($spec, $value = null)
+	{
+		//todo 如果$spec是数组则递归设置
+
+		$_GET[(string)$spec] = $value;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getQuery()*/
+
+	public function getQuery($key = null, $default = null)
+	{
+		if (null == $key) {
+			return $_GET;
+		}
+
+		return isset($_GET[$key]) ? $_GET[$key] : $default;
+	}
+	
+	/*}}}*/
+
 	/*{{{public function setRequestUri()*/
 
 	public function setRequestUri($requestUri = null)
