@@ -21,7 +21,6 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	/*{{{functions*/
 
 
-
 	/*{{{public function setQuery()*/
 
 	public function setQuery($spec, $value = null)
@@ -46,6 +45,22 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	}
 	
 	/*}}}*/
+
+	/*{{{public function getServer()*/
+
+	#retrieve a member of the $_server superglobal
+	public function getServer($key = null, $default = null)
+	{
+		if (null === $key) {
+			return $_SERVER;
+		}
+
+		return isset($_SERVER[$key]) ? $_SERVER[$key] : $default;
+	}
+	
+	
+	/*}}}*/
+
 
 	/*{{{public function setRequestUri()*/
 
@@ -201,30 +216,318 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	}
 	
 	/*}}}*/
-	/*{{{*/
+	/*{{{public function setPathInfo()*/
 
-		
-	
-	/*}}}*/
-
-
-
-	/*{{{public function getServer()*/
-
-	#retrieve a member of the $_server superglobal
-	public function getServer($key = null, $default = null)
+	public function setPathInfo($pathInfo = null)			
 	{
-		if (null === $key) {
-			return $_SERVER;
+		if (null === $pathInfo)	{
+			$baseUrl = $this->getBaseUrl();
+
+			if (null === ($requestUri = $this->getRequestUri())){
+				return $this;
+			}
+
+			if ($pos = strpos($requestUri, '?')) {
+				$requestUri = substr($requestUri, 0, $pos);
+			}
+
+			$requestUri = urldecode($requestUri);
+
+			if (null !== $baseUrl && ((!empty($baseUrl) && 0 === strpos($requstUri, $baseUrl)) || empty($baseUrl)) && false === ($pathInfo = substr($requestUri, strlen($baseUrl)))) {
+				$pathInfo = '';
+			} else if (null === $baseUrl || (!empty($baseUrl) && false === strpos($requestUri, $baseUri))) {
+				$pathInfo = $requestUri;
+			}
 		}
 
-		return isset($_SERVER[$key]) ? $_SERVER[$key] : $default;
+		$this->_pathInfo= (string) $pathInfo;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getPathInfo()*/
+
+	#returns everything betweenthe baseUrl and querystring.
+	public function getPathInfo()
+	{
+		if (empty($this->_pathInfo)) {
+			$this->setPathInfo();
+		}
+
+		return $this->_pathInfo;
+	}
+	
+	/*}}}*/
+	/*{{{public function setParamSources()*/
+
+	#set allowed parameter sources
+	public function setParamSources(array $paramSources = array())
+	{
+		$this->_paramSources = $paramSources;	
+	}
+	
+	/*}}}*/
+	/*{{{public function getParamSources()*/
+
+	#get list of allowed parameter sources
+	public function getParamSources()
+	{
+		return $this->_paramSources;	
+	}
+	
+	/*}}}*/
+	/*{{{public function setParam()*/
+
+	#set a useland parameter
+	public function setParam($key, $value)
+	{
+		$key = null !== ($alais = $this->getAlias($key)) ? $alias : $key;
+		parent::setParam($key, $value);
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getParam()*/
+
+	public function getParam($key, $default = null)	
+	{
+		$keyName = null !== ($alias = $this->getAlias($key)) ? $alias : $key;
+
+		$paramSources = $this->getParamSources();
+		if (isset($this->_params[$keyName])) {
+			return $this->_params[$keyName];
+		} else if (in_array('_GET', $paramSources) && isset($_GET[$keyName])) {
+			return $_GET[$keyName];
+		} else if (in_array('_POST', $paramSources) && isset($_POST[$keyName])){
+			return $_POST[$keyName];
+		}
+
+		return $default;	
+	}
+
+	/*}}}*/
+	/*{{{public function getParams()*/
+
+	#retrieve params	
+	public function getParams()
+	{
+		$return = $this->_params;	
+		$paramSources = $this->getParamSources();
+		if (in_array('_GET', $paramSources) && isset($_GET) && is_array($_GET)) {
+			$return += $_GET; 
+		} 
+
+		if (in_array('_POST', $paramSources) && isset($_POST) && is_array($_POST)) {
+			$return += $_POST;
+		}
+
+		return $return;
+	}
+	
+	/*}}}*/
+	/*{{{public function setParams()*/
+	
+	public function setParams(array $params) 
+	{
+		foreach ($params as $key => $value)	{
+			$this->setParam($key, $value);
+		}
+
+		return $this;
+
+	}
+
+	/*}}}*/
+	/*{{{public function setAlias()*/
+
+	#set a key alias
+	public function setAlias($name, $target)
+	{
+		$this->_aliases[$name] = $target;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getAlias()*/
+
+	public function getAlias($name)
+	{
+		if (isset($this->_aliases[$name])) {
+			return $this->_aliases[$name];
+		}
+
+		return null;
+	}
+
+	/*}}}*/
+	/*{{{public function getAliases()*/
+
+	#get all alaises
+	public function getAliases()
+	{
+		return $this->_aliases;	
+	}
+	
+	/*}}}*/
+	/*{{{public function getMethod()*/
+
+	public function getMethod()
+	{
+		return $this->getServer('REQUEST_METHOD');
+	}
+	
+	/*}}}*/
+	/*{{{public function isPost()*/
+
+	public function isPost()
+	{
+		if ('POST' == $this->getMethod()) {
+			return true;
+		}
+
+		return false;
 	}
 	
 	
 	/*}}}*/
+	/*{{{public function isGet()*/
 
+	public function isGet()
+	{
+		if ('GET' == $this->getMethod()) {
+			return true;
+		}
 
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function isPut()*/
+	
+	public function isPut()
+	{
+		if ('PUT' == $this->getMethod()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/*}}}*/
+	/*{{{public function isDelete()*/
+
+	public function isDelete()
+	{
+		if ('DELETE' == $this->getMethod())	{
+			return true;
+		}
+
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function isHead()*/
+	
+	public function isHead()
+	{
+		if ('HEAD' == $this->getMethod()) {
+			return true;	
+		}
+
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function isOptions()*/
+	
+	public function isOptions()
+	{
+		if ('OPTIONS' == $this->getMethod()) {
+			return true;
+		}
+
+		return false;	
+	}
+	
+	/*}}}*/
+	/*{{{public function isXmlHttpRequest()*/
+
+	public function isXmlHttpRequest()
+	{
+		return 'XMLHttpRequest' == $this->getHeader('X_REQUESTED_WITH');
+	}
+	
+	/*}}}*/
+	/*{{{public function isFlashRequest()*/
+
+	public function isFlashRequest()
+	{
+		$header = strtolower($this->getHeader('USER_AGENT'));
+
+		return strstr($header, 'flash') ? true : false;
+	}
+	
+	/*}}}*/
+	/*{{{public function isSecure()*/
+
+	public function isSecure()
+	{
+		return $this->getScheme() === self::SCHEME_HTTPS;
+	}
+	
+	/*}}}*/
+	/*{{{public function getRawBody()*/
+
+	public function getRawBody()
+	{
+		if ($this->_rawBody === null) {
+			$body = file_get_contents('php://input');
+			if (strlen(trim($body)) > 0) {
+				$this->_rawBody = $body;	
+			} else {
+				$this->_rawBody = '';
+			}
+		}
+
+		return $this->_rawBody;
+	}
+	
+	/*}}}*/
+	/*{{{public function getHeader()*/
+
+	#首先通过$_SERVER获取头信息参数结果，其次从apache扩展函数中获取
+	public function getHeader($header)
+	{
+		if (empty($header)) {
+			require_once 'Zend/Controller/Request/Exception.php';
+			throw new Zend_Controller_Request_Exception('An HTTP Header name is required!');
+		}
+
+		$temp = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
+		if ($isset($_SERVER[$temp])) {
+			return $_SERVER[$temp];
+		}
+
+		if (function_exists('apache_request_headers')) {
+			$headers = apache_request_headers();
+			if (isset($headers[$header])) {
+				return $headers[$header];
+			}
+
+			foreach ($headers as $key => $value) {
+				if (strtolower($key) == $header) {
+					return $value;
+				}
+			}
+		}
+
+		return false;	
+	}
+	
+	/*}}}*/
 	/*{{{public function getScheme()*/
 
 	#get request uri scheme
@@ -256,6 +559,22 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 		} else {
 			return $name . ':' . $port;
 		}
+	}
+	
+	/*}}}*/
+	/*{{{public function getClientIp()*/
+
+	public function getClientIp($checkProxy = true)
+	{
+		if ($checkProxy && $this->getServer('HTTP_CLIENT_IP') !==  null) {
+			$clientIp = $this->getServer('HTTP_CLIENT_IP');
+		} else if ($checkProxy && $this->getServer('HTTP_X_FORWARDED_FOR') != null) {
+			$clientIp = $this->getServer('HTTP_X_FORWARDED_FOR');
+		} else {
+			$clientIp = $this->getServer('REMOTE_ADDR');
+		}
+
+		return $clientIp;
 	}
 	
 	/*}}}*/
