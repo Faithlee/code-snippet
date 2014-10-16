@@ -1,0 +1,1 @@
+插件目录：实现对路由(routeStartup/routeShutdown)、分发(dispatchStartup/preDispatch/postDispatch/dispatchShutdown)的控制；
