@@ -13,8 +13,13 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	#注册一个插件
 	public function _initPlugin(Yaf_Dispatcher $dispatcher)
 	{
+		echo '1. initPlugin was called! All route and dispatch plugins begin to be called! <br/>';
+
 		$plugin = new UserPlugin();
 		$dispatcher->registerPlugin($plugin);
+
+		echo 'initPlugin was called end!<br/>';
+		echo '========================<br/>';
 	}
 	
 	/*}}}*/
@@ -34,8 +39,4 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	}
 
 	/*}}}*/
-
-
-
-
 }
