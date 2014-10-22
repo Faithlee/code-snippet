@@ -26,5 +26,15 @@ class SetExceptionTest extends PHPUnit_Framework_TestCase {
 
 		throw new InvalidArgumentException('the Right Message', 10);
 	}
+
+	#效果与上面是一样的
+	/**
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage Right Message
+	 */
+	public function testAnotherExceptionRightCode()
+	{
+		throw new InvalidArgumentException('Right Message', 10);
+	}
 }
 
