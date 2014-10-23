@@ -241,14 +241,89 @@ class AssertTest extends PHPUnit_Framework_TestCase {
 	}
 
 	#30.断言json字符串相同	
+	public function testJsonStringEquals()
+	{
+		$expected = json_encode(array('Masscott' => 'Tux'));
+		$actual = json_encode(array('Mscott' => 'ux'));
 
+		$this->assertJsonStringEqualsJsonString($expected, $actual, '断言json串相同: false');
+	}
 
+	#30.断言小于
+	public function testLessThan()
+	{
+		$this->assertLessThan(1, 2, '断言2小于1: false');
+	}
 
+	#31.断言小于或等于
+	public function testLessThanOrEqual()
+	{
+		$this->assertLessThanOrEqual(1, 2, "断言2小于或等于1: false");
+	}
+	
+	#32.断言为空
+	public function testNull()
+	{
+		$this->assertNull('foo', '断言foo为空: false')	;
+	}
 
+	#33.断言是否有属性
+	public function testHasAttribute()
+	{
+
+		$this->assertObjectHasAttribute('param', new Foo);
+
+		$this->assertObjectHasAttribute('foo', new stdClass, '断言有foo属性: false');
+
+	}
+	
+	#34.断言正则匹配
+	public function testRegex()
+	{
+		$this->assertRegExp('/foo/', 'bar', '断言bar匹配foo: false');
+	}
+
+	#35.断言字符串是否满足给定的格式
+	public function testStringMatchFormat()
+	{
+		#'%i'表示带符号的整数
+		$this->assertStringMatchesFormat('%i', 'foo', '断言foo匹配%i: false');
+	}
+
+	#36.断言字符串与文件的内容是否匹配
+	public function testStringMatchesFormatFile()
+	{
+		#true
+		$this->assertStringMatchesFormatFile('./stringFormat.txt', "foo test\n");
+
+		$this->assertStringMatchesFormatFile('./stringFormat.txt', "foo test");
+	}
+
+	#37.断言类型与值完全相同
+	public function testSame()
+	{
+		$this->assertSame('2204', 2204, '断言两个类型与值是相同的: false');
+	}
+
+	#38.断言两个对象是引用相同
+	public function testObjectSame()
+	{
+		$this->assertSame(new stdClass, new stdClass, '断言两个对象是引用相同的: false');
+	}
+	
+	#39.
+	public function testObjectSame2()
+	{
+		$expected = new stdClass();
+		$actual = $expected;	
+
+		$this->assertSame($expected, $actual);
+	}
 }
 
 class Foo{
-
+	public $param = array();
+	
 }
 
 class Bar{
