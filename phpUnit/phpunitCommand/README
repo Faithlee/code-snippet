@@ -1,0 +1,52 @@
+命令行运行:phpunit UnitTest
+
+1.PHPUnit命令行测试执行器:
+	关于代码覆盖率的测试
+	1).xml格式：phpunit --coverage-clover test.xml StackTest.php
+	2).html格式：phpunit --coverage-html cover StackTest.php
+	3).php格式: 
+
+
+2.日志非常重要，phpunit支持的日志格式有多种：
+	1).html格式：phpunit --testdox-html phpunit.html StackTest.php
+	2).文本格式：phpunit --testdox-text phpunit.html StackTest.php
+	3).json格式：phpunit --log-json unitlog.json StackTest.php
+	4).xml格式：phpunit --log-junit unit StackTest.php
+
+3.测试过滤器，过滤想要测试的方法
+	1).filter pattern: pattern 与测试的方法会匹配
+		phpunit --filter [quals|Equals|testEquals] StackTest.php
+		phpunit --filter '@my named data' TestCaseClass.php
+	2).--group: 只测试加@group标注的方法，在被测试的类上加标注@group xxx
+		phpunit --group group TestCaseClass.php
+	3).--exclude-group: 测试除@group标注方法以外的方法
+		phpunit --exclude-group group TestCaseClass.php
+	4).--list-groups: 列出有效的分组	
+		phpunit --list-groups TestCaseClass.php
+		
+
+4.高亮显示测试结果:
+	1).phpunit --colors StackTest.php	
+
+5.测试名称将以以下格式进行匹配:
+ TestNamespace\TestCaseClass::testMethod
+	默认的测试名称格式等价于在测试方法内使用 __METHOD__ 魔术常量。
+
+ TestNamespace\TestCaseClass::testMethod with data set #0
+	当测试拥有数据供给器时，数据的每轮迭代都会将其当前索引附加在默认测试名称结尾处。
+
+ TestNamespace\TestCaseClass::testMethod with data set "my named data"
+	当测试拥有使用命名数据集的数据供给器时，数据的每轮迭代都会将当前名称附加在默认测试名称结尾处。
+
+6.首次出现问题时停止执行:
+	1).--stop-on-failure: 首次执行失败则停止;
+		phpunit --stop-on-failure TestCaseClass.php	
+	
+	2).--stop-on-error: 首次错误则停止执行;
+			
+
+7.更详尽的输出及输出调试信息:
+	phpunit --verbose StackTest.php	
+	phpunit --debug StackTest.php
+
+
