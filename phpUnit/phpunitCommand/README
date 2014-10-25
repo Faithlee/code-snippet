@@ -49,4 +49,10 @@
 	phpunit --verbose StackTest.php	
 	phpunit --debug StackTest.php
 
+8.严格模式测试:
+	--report-useless-tests：没有测试任何的内容的测试，会被标记为风险;
+	--strict-coverage: 对意外覆盖的代码更加严格；
+	--disallow-test-output: 对测试期间的输出更加严格；
+	--enforce-time-limit: 对测试执行的时间进行限制；
 
+9.

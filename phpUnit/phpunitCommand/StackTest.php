@@ -17,4 +17,13 @@ class StackTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->assertEquals(array(1, 2), array(3, 4));
 	}
+
+	#检查不测试任何内容的测试的严格性：--report-useless-tests 
+	public function testUseless()
+	{
+		$stack = array(1, 2, 3);
+
+		#关闭断言,再严格测试模式下会报风险R
+		#$this->assertContains(4, $stack);
+	}
 }
