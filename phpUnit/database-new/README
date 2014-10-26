@@ -1,0 +1,2 @@
+1.使用mysqldump导出xml格式:
+	mysqldump --xml -uroot -p -S mysql.sock test guestbook > ./mysqldumpXML.xml
