@@ -1,0 +1,9 @@
+<!--编排测试套件的配置phpunit.xml-->
+<phpunit>
+  <testsuites>
+    <testsuite name="user">
+      <file>tests/ValidatorPHPUnitTest.php</file>
+      <file>tests/UserStorePHPUnitTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>
