@@ -14,7 +14,8 @@ class BuscuitTest extends PHPUnit_Framework_TestCase {
 	{
 		$theBiscuit = new Biscuit('Ginger');
 		$myBiscuit = new Biscuit('Ginger');
-
+		
+		//约束断言
 		$this->assertThat(
 			$theBiscuit,
 			$this->logicalNot($this->equalTo($myBiscuit))

@@ -25,7 +25,3 @@ class StackTest extends PHPUnit_Framework_TestCase {
 		#当你想把一些东西写到print或者表达式中，别这样做，将其写成一个测试来代替；
 	}
 }
-
-$obj = new StackTest();
-
-$obj->testPushAndPop();
