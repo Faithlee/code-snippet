@@ -1,0 +1,8 @@
+[common]
+; 支持直接写PHP中的已定义常量, Windows 平台需要注意目录分割符的问题
+application.directory = APPLICATION_PATH "/application/"
+
+
+[product : common]
+
+[develop : product]
