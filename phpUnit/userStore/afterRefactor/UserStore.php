@@ -2,8 +2,8 @@
 /**
  * @FileName: UserStore.php
  * @Desc: 代码重构：将成员属性储存数组改为储存对象
- * @Author: Faithlee098
- * @Mail: lijiabin098@126.com 
+ * @Author: lijiawei
+ * @Mail: li.jiawei@leftbrain.com.cn
  * @CTime: Tue 28 Oct 2014 01:17:56 AM CST
  */
 

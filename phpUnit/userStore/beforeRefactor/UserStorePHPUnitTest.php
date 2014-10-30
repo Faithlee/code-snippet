@@ -13,7 +13,6 @@ class UserStorePHPUnitTest extends PHPUnit_Framework_TestCase {
 	private $store;
 
 	/**
-	 * @todo setUp功能?何为基境共享?
 	 * 每个测试都会调用一次setUp模板
 	 */
 	public function setUp()	
@@ -41,7 +40,7 @@ class UserStorePHPUnitTest extends PHPUnit_Framework_TestCase {
 		}
 		
 		#测试失败提示
-		$this->fail('短密码异常！');
+		$this->fail('短密码异常失败！');
 	}
 
 	/**
@@ -49,24 +48,16 @@ class UserStorePHPUnitTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGetUser()
 	{
-		//模拟基境 ==> 测试环境
 
-		//what is 断言?	
 		$this->store->addUser('admin', 'admin@sina.com', '123456');
 		
 		$user = $this->store->getUser('admin@sina.com');
 
-		//todo assertEquals()的用法，参数：expected, actual, 误差，断言失败的信息
-		//如何理解断言结果?
-
 		//开始断言，有一个失败则都失败
 		$this->assertEquals($user['name'], 'admin', '如果我出现则用户名断言失败！');
 
-		$this->assertEquals($user['mail'], 'admin@sina.com', '断言测试失败');
+		$this->assertEquals($user['mail'], 'admin@sina.com', '断言邮箱测试失败');
 
-		$this->assertEquals($user['pass'], '1234567', '断言测试失败');
+		$this->assertEquals($user['pass'], '1234567', '断言密码测试失败');
 	}
-
-	//todo 介绍一些基本的断言函数	
-	//assertTrue/assertSame/fail()
 }

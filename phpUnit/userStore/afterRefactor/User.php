@@ -2,8 +2,8 @@
 /**
  * @FileName: User.php
  * @Desc: 
- * @Author: Faithlee098
- * @Mail: lijiabin098@126.com 
+ * @Author: lijiawei 
+ * @Mail: li.jiawei@leftbrain.com.cn
  * @CTime: Tue 28 Oct 2014 01:25:45 AM CST
  */
 

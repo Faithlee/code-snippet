@@ -14,7 +14,6 @@ class UserStorePHPUnitTest extends PHPUnit_Framework_TestCase {
 	private $store;
 
 	/**
-	 * @todo setUp功能?何为基境共享?
 	 * 每个测试都会调用一次setUp模板
 	 */
 	public function setUp()	
@@ -43,16 +42,13 @@ class UserStorePHPUnitTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetUser()
 	{
-		//模拟基境 ==> 测试环境
-
-		//what is 断言?	
 		$this->store->addUser('admin', 'admin@sina.com', '123456');
 		
 		$user = $this->store->getUser('admin@sina.com');
 
 		//开始断言，将数组形式改为对象
-		#$this->assertEquals($user['name'], 'admin', '如果我出现则用户名断言失败！');
-		$this->assertEquals($user->getMail(), 'admin@sina.com', '断言失败!');
+		$this->assertEquals($user['name'], 'admin', '如果我出现则用户名断言失败！');
+		#$this->assertEquals($user->getMail(), 'admin@sina.com', '断言失败!');
 
 		//$this->assertEquals($user['mail'], 'admin@sina.com', '断言测试失败');
 		
