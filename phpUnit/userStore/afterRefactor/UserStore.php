@@ -14,7 +14,7 @@ class UserStore {
 
 	public function addUser($name, $mail, $passwd)
 	{
-		if (isset($this->users[$name]))	{
+		if (isset($this->users[$mail]))	{
 			throw new Exception("User {$mail} already exists!");
 		}
 
