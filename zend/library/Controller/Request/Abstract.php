@@ -218,7 +218,8 @@ abstract class Zend_Controller_Request_Abstract {
 	
 	public function getParams()
 	{
-		return $this->_params;	}	
+		return $this->_params;	
+	}	
 	
 	/*}}}*/
 	/*{{{public function setParams()*/

@@ -19,13 +19,140 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 
 	/*}}}*/
 	/*{{{functions*/
+	/*{{{public function __construct()*/
 
+	public function __construct($uri = null)
+	{
+		if (null !== $uri) {
+			if (!$uri instanceof Zend_Uri) {
+				$uri = Zend_Uri::factory($uri);
+			}
 
+			if ($uri->valid()) {
+				$path = $uri->getPath();
+				$query = $uri->getQuery();
+				if (!empty($query)) {
+					$path .= '?' . $query;
+				}
+
+				$this->setRequestUri($path);
+			} else {
+				require_once 'Zend/Controller/Request/Exception.php';
+				throw new Zend_Controller_Request_Exception('Invalid URI provided to construtor');
+			}
+		} else {
+			$this->setRequestUri();
+		}
+	
+	}
+	
+	/*}}}*/
+	/*{{{public function __get()*/
+	
+	#access values contained in the superglobals as public members;
+	public function __get($key)
+	{
+		switch (true) {
+			case isset($this->_params[$key]):
+				return $this->params[$key];
+			case isset($_GET[$key]):
+				return $_GET[$key];
+			case isset($_POST[$key]):
+				return $_POST[$key];
+			case isset($_COOKIE[$key]):
+				return $_COOKIE[$key];
+			case ($key == 'REQUEST_URI'):
+				return $this->getRequestUri();
+			case ($key == 'PATH_INFO'):
+				return $this->getPathInfo();
+			case isset($SERVER[$key]):
+				return $_SERVER[$key];
+			case isset($_ENV[$key]):
+				return $_ENV[$key];
+			default:
+				return null;
+		}
+	}
+	
+	/*}}}*/
+	/*{{{public function get()*/
+
+	#alias to _get()
+	public function get($key)
+	{
+		return $this->__get($key);
+	}
+	
+	/*}}}*/
+	/*{{{public function __set()*/
+	
+	#set values
+	public function __set($key, $value)
+	{
+		require_once 'Zend/Controller/Request/Exception.php';
+		throw new Zend_Controller_Request_Exception('Setting values in supperglobals not allowed; please use setParam()');
+	}
+	
+	/*}}}*/
+	/*{{{public function set()*/
+
+	public function set($key, $value)
+	{
+		return $this->__set($key, $value);
+	}
+	
+	/*}}}*/
+	/*{{{public function __isset()*/
+	
+	#check to see if a property is set
+	public function __isset($key)
+	{
+		switch (true) {
+			case isset($this->_params[$key]):
+				return true;
+			case isset($_GET[$key]):
+				return true;
+			case isset($_POST[$key]):
+				return true;
+			case isset($_COOKIE[$key]):
+				return true;
+			case isset($_SERVER[$key]):
+				return true;
+			case isset($_ENV[$key]):
+				return true;
+			default:
+				return false;
+		}
+	}
+	
+	/*}}}*/
+	/*{{{public function has()*/
+
+	#alias to __isset()	
+	public function has($key)
+	{
+		return $this->__isset($key);
+	}
+
+	/*}}}*/
 	/*{{{public function setQuery()*/
-
+	
+	#关键: $_GET[(string)$spec]	= $value;
 	public function setQuery($spec, $value = null)
 	{
 		//todo 如果$spec是数组则递归设置
+		if ((null === $value) && !is_array($spec)) {
+			require_once 'Zend/Controller/Exception.php';
+			throw new Zend_Controller_Exception('Invalid value passed to setQuery(); must be either array of values or key/value pair');
+		}
+
+		if (null === ($value) && is_array($spec)) {
+			foreach ($spec as $key => $value) {
+				$this->setQuery($key, $value);
+			}
+
+			return $this;
+		}
 
 		$_GET[(string)$spec] = $value;
 
@@ -45,7 +172,56 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	}
 	
 	/*}}}*/
+	/*{{{public function setPost()*/
 
+	#set post values
+	public function setPost($spec, $value = null) 
+	{
+		if (null === $value && !is_array($spec)) {
+			require_once 'Zend/Controller/Exception.php';
+
+			throw new Zend_Controller_Exception('Invalid value pased to setPost(); must be either arrya of values or  key/value pair');
+		}
+
+		if (null === $value && is_array($spec)) {
+			foreach ($spec as $key => $value) {
+				$this->setPost($key, $value);
+			}
+
+			return $this;
+		}
+
+		$_POST[(string) $spec] = $value;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getPost()*/
+	
+	public function getPost($key = null, $default = null)
+	{
+		if (null == $key) {
+			return $_POST;
+		}
+
+		return isset($_POST[$key]) ? $_POST[$key] : $default;
+	}
+	
+	/*}}}*/
+	/*{{{public function getCookie()*/
+
+	#retrieve a member of the $_COOKIE superglobal
+	public function getCookie($key = null, $default = null)
+	{
+		if (null === $key) {
+			return $_COOKIE;
+		}
+
+		return isset($_COOKIE[$key]) ? $_COOKIE[$key] : $default;
+	}
+	
+	/*}}}*/
 	/*{{{public function getServer()*/
 
 	#retrieve a member of the $_server superglobal
@@ -58,10 +234,21 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 		return isset($_SERVER[$key]) ? $_SERVER[$key] : $default;
 	}
 	
+	/*}}}*/
+	/*{{{public function getEnv()*/
+	
+	#retrieve a member of the $_ENV superglobal
+	public function getEnv($key = null, $default = null)
+	{
+		if (null === $key) {
+			return $_ENV;
+		}
+
+		return isset($_ENV[$key]) ? $_ENV[$key] : $default;
+	}
+	
 	
 	/*}}}*/
-
-
 	/*{{{public function setRequestUri()*/
 
 	public function setRequestUri($requestUri = null)
@@ -84,7 +271,18 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	
 	
 	/*}}}*/
+	/*{{{public function getRequestUri()*/
 
+	public function getRequestUri()
+	{
+		if (empty($this->_requestUri)) {
+			$this->setRequestUri();
+		}
+
+		return $this->_requestUri;	
+	}
+	
+	/*}}}*/
 	/*{{{public function setBaseUrl()*/
 
 	public function setBaseUrl($baseUrl = null)
@@ -579,5 +777,4 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract {
 	
 	/*}}}*/
 	/*}}}*/
-
 }
