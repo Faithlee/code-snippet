@@ -335,6 +335,315 @@ abstract Zend_Controller_Response_Abstract {
 	}
 	
 	/*}}}*/
+	/*{{{public function clearBody()*/
+
+	#clear body
+	public function clearBody($name = null)
+	{
+		if (null != $name) {
+			$name = (string)$name;
+			if (isset($this->_body[$name])) {
+				unset($this->_body[$name]);
+
+				return true;
+			}
+
+			return false;
+		}
+
+		$this->_body = array();
+
+		return true;
+	}
+	
+	/*}}}*/
+	/*{{{public function getBody()*/
+
+	#return the body content
+	public function getBody($spec = false)
+	{
+		if ($spec === false) {
+			ob_start();
+			$this->outputBody();
+			return ob_get_clean();
+		} else if ($spec === true) {
+			return $this->_body;	
+		} else if (is_string($spec) && isset($this->_body[$spec])) {
+			return $this->_body[$spec];
+		}
+
+		return null;
+	}
+	
+	/*}}}*/
+	/*{{{public function append()*/
+
+	public function append($content, $name)
+	{
+		if (!is_string($name)) {
+			require_once 'Zend/Controller/Response/Exception.php';
+			throw new Zend_Controller_Response_Exception('Invalid body segment key ' . gettype($name));
+		}
+
+		if (isset($this->_body[$name])) {
+			unset($this->_body[$name]);
+		}
+
+		$this->_body[$name] = (string)$content;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function prepend()*/
+	
+	public function prepend($name, $content)
+	{
+		if (!is_string($name)) {
+			require_once 'Zend/Controller/Response/Exception.php';
+
+			throw new Zend_Controller_Response_Exception('Invalid body segment key ' . gettype($name));
+		}
+
+		#向前插入
+		if (isset($this->_body[$name])) {
+			unset($this->_body[$name]);
+		}
+
+		$new = array($name => (string)$content);
+		$this->_body = $new + $this->_body;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function insert()*/
+
+	#insert a named segment into the body content array	
+	public function insert($name, $content, $parent = null, $before = false)	
+	{
+		if (!is_string($name)) {
+			require_once 'Zend/Controller/Response/Exception.php';
+
+			throw new Zend_Controller_Response_Exception('Invalid body segment key ' . gettype($name));
+		}
+
+		if (null !== $parent || !is_string($parent)) {
+			require_once 'Zend/Controller/Response/Exception.php';
+
+			throw new Zend_Controller_Response_Exception('Invalid body segment parent key ' . gettype($parend));
+		}
+
+		if ($this->_body[$name]) {
+			unset($this->_body[$name]);
+		}
+
+		if (null === $parent || !isset($this->_body[$naem])) {
+			return $this->append($name, $content);
+		}
+
+		$ins = array($name => (string)$content);
+		$key = array_keys($this->_body);
+		$loc = array_search($parent, $key);
+		if (!$before) {
+			++$loc;
+		}
+
+		if (0 === $loc) {
+			$this->_body = $ins + $this->_body;
+		} else if ($loc >= count($this->_body)) {
+			$this->_body = $this->_body + $ins;
+		} else {
+			$pre = array_slice($this->_body, 0, $loc);
+			$post = array_slice($this->_body, $loc);
+			$this->_body = $pre + $ins + $post;
+		}
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function outputBody()*/
+	
+	#echo the body segments
+	public function outputBody()
+	{
+		$body = implode('', $this->_body);
+		echo $body;
+	}
+	
+	/*}}}*/
+	/*{{{public function setException()*/
+
+	#register an exception with the response
+	public function setException(Exception $e)
+	{
+		$this->_exceptions[] = $e;
+
+		return $this;
+	}
+	
+	/*}}}*/
+	/*{{{public function getException()*/
+
+	#retrieve the exception stack
+	public function getException()
+	{
+		return $this->_exceptions;	
+	}
+	
+	/*}}}*/
+	/*{{{public function isException()*/
+	
+	#has an exception been registered with the response
+	public function isException()
+	{
+		return !empty($this->_exceptions);
+	}
+	
+	/*}}}*/
+	/*{{{public function hasExceptionOfType()*/
+
+	#contain an exception of a given type
+	public function hasExceptionOfType($type)
+	{
+		foreach ($this->_exceptions as $e)	{
+			if ($e instanceof $type) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function hasExceptionOfMessage()*/
+
+	#contain an exception of a given message?
+	public function hasExceptionOfMessage($message)
+	{
+		foreach ($this->_exceptions as $e) {
+			if ($message == $e->getMessage()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function hasExceptionCode()*/
+
+	#contain exception of a given code?
+	public function hasExceptionCode($code)
+	{
+		foreach ($this->_exceptions as $e) {
+			if ($code == $e->getCode()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/*}}}*/
+	/*{{{public function getExceptionByType()*/
+
+	#retrieve all exception of a given type
+	public function getExceptionByType($type)
+	{
+		$exceptions = array();
+		foreach ($this->_exceptions as $e) {
+			if ($e instanceof $type) {
+				$exceptions[] = $e;
+			}
+		}
+	
+		if (empty($exception)) {
+			$exceptions = false;
+		}
+
+		return $exceptions;
+	}
+	
+	/*}}}*/
+	/*{{{public function getExceptionByMessage()*/
+
+	#retrieve all exception of a given message
+	public function getExceptionByMessage($message)
+	{
+		$exceptions = array();
+		foreach ($this->_exceptions as $e) {
+			if ($message == $e->getMessage()) {
+				$exceptions[] = $e;
+			}
+		}
+
+		return empty($exceptions) ? false : $exceptions;
+	}
+	
+	/*}}}*/
+	/*{{{public function getExceptionByCode()*/
+
+	#retrieve all exception of a given code
+	public function getExceptionByCode($code)
+	{
+		$exceptions = array();
+		foreach ($this->_exceptions as $e) {
+			if ($code == $e->getCode()) {
+				$exceptions[] = $e;
+			}
+		}
+
+		return empty($exceptions) ? false : $exceptions;
+	}
+	
+	/*}}}*/
+	/*{{{public function renderExceptions()*/
+
+	#weather or not to render exceptions
+	public function renderExceptions($flag = null)
+	{
+		if (null !== $flag)	{
+			$this->_renderExceptions = $flag ? true : false;
+		}
+
+		return $this->_renderExceptions;	
+	}
+	
+	/*}}}*/
+	/*{{{public function sendResponse()*/
+
+	public function sendResponse()
+	{
+		$this->sendHeaders();
+
+		if ($this->isException() && $this->renderException()) {
+			$exceptions = '';
+			foreach ($this->getException() as $e) {
+				$exceptions .= $e->__toString()	. "\n";
+			}
+
+			echo $exceptions;
+			return;
+		}
+		
+		$this->outputBody();
+	}
+	
+	/*}}}*/
+	/*{{{public function __toString()*/
+
+	public function __toString()
+	{
+		ob_start();
+
+		$this->sendResponse();
+
+		return ob_get_clean();
+	}
+	
+	/*}}}*/
 
 	/*}}}*/
 }
