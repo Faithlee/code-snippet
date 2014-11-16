@@ -33,6 +33,7 @@ abstract class Zend_Controller_Router_Abstract implements Zend_Controller_Router
 	#add or modify a parameter to use when instantiating an action controller
 	public function setParam($name, $value) 
 	{
+		$name = (string) $name;
 		$this->_invokeParams[$name]	= $value;
 
 		return $this;
