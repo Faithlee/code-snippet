@@ -22,15 +22,28 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	public function _initRoute(Yaf_Dispatcher $dispatcher)
 	{
 		echo "加载路由协议!<br/>";
-		#$dispatcher = Yaf_Dispatcher::getInstance();
 		$router = $dispatcher->getRouter();
-		#print_r($router);
-		$config = Yaf_Registry::get('config');
-		#print_r($config);
+
+		#获取配置信息
+		#$config = Yaf_Registry::get('config');
 		
-		$router->addConfig($config->routes);
-		
-		print_r($router->getCurrentRoute());
+		#$router->addConfig($config->routes);
+
+		#print_r($router->getCurrentRoute());
+
+		$route = new Yaf_Route_Regex(
+			'#product/([a-zA-Z-_0-9]+)#',
+			array(
+				'controller' => 'index',
+				'action' => 'demo',
+			),
+			array(
+				1 => 'var'
+			)
+		);
+
+		$router->addRoute('test', $route);
+	
 	}
 	
 	/*}}}*/

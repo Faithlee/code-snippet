@@ -77,7 +77,15 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Route {
 	}
 	
 	/*}}}*/
+
+	/*{{{public function addConfig()*/
+
+	public function addConfig()
+	{
 	
+	}
+	
+	/*}}}*/
 
 	/*}}}*/
 
