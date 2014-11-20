@@ -8,6 +8,32 @@
  */
 
 class Bootstrap extends Yaf_Bootstrap_Abstract {
+	/*{{{public function _initConfig()*/
+
+	public function _initConfig()
+	{
+		$config = Yaf_Application::app()->getConfig();
+		Yaf_Registry::set('config', $config);
+	}
+
+	/*}}}*/
+	/*{{{public function _initRoute()*/
+
+	public function _initRoute(Yaf_Dispatcher $dispatcher)
+	{
+		echo "加载路由协议!<br/>";
+		#$dispatcher = Yaf_Dispatcher::getInstance();
+		$router = $dispatcher->getRouter();
+		#print_r($router);
+		$config = Yaf_Registry::get('config');
+		#print_r($config);
+		
+		$router->addConfig($config->routes);
+		
+		print_r($router->getCurrentRoute());
+	}
+	
+	/*}}}*/
 	/*{{{public function _initPlugin()*/
 	
 	#注册一个插件
@@ -23,15 +49,6 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	}
 	
 	/*}}}*/
-	/*{{{public function _initConfig()*/
-
-	public function _initConfig()
-	{
-		$config = Yaf_Application::app()->getConfig();
-		Yaf_Registry::set('config', $config);
-	}
-
-	/*}}}*/
 	/*{{{public function _initDefaultName()*/
 
 	public function _initDefaultName(Yaf_Dispatcher $dispatcher)
@@ -44,7 +61,9 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 
 	public function _initView(Yaf_Dispatcher $dispatcher)
 	{
-	
+		#引用自身类
+		#$test = new Foo_Bar();
+		#print_r($test->getData());
 	}
 
 	/*}}}*/

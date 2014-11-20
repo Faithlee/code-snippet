@@ -25,7 +25,7 @@ class IndexController extends Yaf_Controller_Abstract {
 		#$loader->registerLocalNamespace(array('Foo'));
 
 		$bar = new Foo_Bar();
-		print_r($bar->getData())
+		print_r($bar->getData());
 
 
 		Yaf_Dispatcher::getInstance()->autoRender(false);
