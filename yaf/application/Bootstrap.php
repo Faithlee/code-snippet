@@ -17,11 +17,27 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	}
 
 	/*}}}*/
-	/*{{{public function _initRoute()*/
-
-	public function _initRoute(Yaf_Dispatcher $dispatcher)
+	/*{{{public function _initRouteStatic()*/
+	
+	#默认路由协议
+	public function _initRouteStatic(Yaf_Dispatcher $dispatcher)
 	{
-		echo "加载路由协议!<br/>";
+		//echo '默认路由协议:' . __METHOD__ . '<br/>';
+		//对于请求/app/foo/bar/dummy/1:
+		//base_uri为app，最后的被路由解析为request_uri：foo/bar/dummy/1
+		
+		#基于query string的请求:index.php?c=request&a=http
+		$router = $dispatcher->getRouter();
+		$route = new Yaf_Route_Simple('m', 'c', 'a');
+		$router->addRoute('simple', $route);
+	}
+	
+	/*}}}*/
+	/*{{{public function _initRouteRegex()*/
+
+	public function _initRouteRegex(Yaf_Dispatcher $dispatcher)
+	{
+		echo "加载路由协议:" . __METHOD__ . "<br/>";
 		$router = $dispatcher->getRouter();
 
 		#获取配置信息

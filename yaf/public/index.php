@@ -16,23 +16,4 @@ set_include_path(APPLICATION_PATH . '/application' . PATH_SEPARATOR . get_includ
 $config = APPLICATION_PATH . '/conf/application.ini';
 
 $app = new Yaf_Application($config);
-
-$app->setAppDirectory(APPLICATION_PATH . '/applications');
-#获取申明的模块名:默认是Index
-var_dump($app->getModules());
-
-#当前环境名
-var_dump($app->environ());
-
-#当前应用目录
-var_dump($app->getAppDirectory());
-
-#当前yaf_config_abstract实例
-var_dump($app->getConfig());
-
-#当前yaf_dispatcher的实例
-var_dump($app->getDispatcher());
-
-
-
 $app->bootstrap()->run();
