@@ -10,9 +10,11 @@
 class Bootstrap extends Yaf_Bootstrap_Abstract {
 	/*{{{public function _initConfig()*/
 
+	#注册配置文件
 	public function _initConfig()
 	{
 		$config = Yaf_Application::app()->getConfig();
+
 		Yaf_Registry::set('config', $config);
 	}
 
@@ -22,14 +24,61 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	#默认路由协议
 	public function _initRouteStatic(Yaf_Dispatcher $dispatcher)
 	{
-		//echo '默认路由协议:' . __METHOD__ . '<br/>';
-		//对于请求/app/foo/bar/dummy/1:
-		//base_uri为app，最后的被路由解析为request_uri：foo/bar/dummy/1
-		
-		#基于query string的请求:index.php?c=request&a=http
+		echo '默认路由协议:' . __METHOD__ . '<br/>';
+	}
+	
+	/*}}}*/
+	/*{{{public function _initRouteSimple()*/
+
+	public function _initRouteSimple(Yaf_Dispatcher $dispatcher)
+	{
+		#基于query string的请求，其中m默认时可以省略: /index.php?m=index&c=request&a=http
 		$router = $dispatcher->getRouter();
+
 		$route = new Yaf_Route_Simple('m', 'c', 'a');
 		$router->addRoute('simple', $route);
+	}
+	
+	/*}}}*/
+	/*{{{public function _initRouteSupervar()*/
+	
+	#通过query_string获取路由信息，如/index.php?r=/index/request/http/name/lilei/age/23
+	public function _initRouteSupervar(Yaf_Dispatcher $dispatcher)
+	{
+		$route = new Yaf_Route_Supervar('r');
+		$router = $dispatcher->getRouter();
+		
+		$router->addRoute('supervar', $route);
+	}
+	
+	/*}}}*/
+	/*{{{public function _initRouteRewrite()*/
+
+	#标识：':'、'*'
+	public function _initRouteRewrite(Yaf_Dispatcher $dispatcher)
+	{
+		$router = $dispatcher->getRouter();
+		
+		/*
+		#协议:products/:ident,如/products/apple
+		$route = new Yaf_Route_Rewrite(
+			'products/:ident', 
+			array(
+				'controller' => 'router',
+				'action' => 'rewrite'
+			)
+		);
+		*/
+		#协议:products/:ident/*, 如:
+		$route = new Yaf_Route_Rewrite(
+			'products/:ident/*',
+			array(
+				'controller' => 'router',
+				'action' => 'rewrite'
+			)
+		);
+
+		$router->addRoute('rewrite', $route);
 	}
 	
 	/*}}}*/
@@ -50,15 +99,13 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		$route = new Yaf_Route_Regex(
 			'#product/([a-zA-Z-_0-9]+)#',
 			array(
-				'controller' => 'index',
-				'action' => 'demo',
+				'controller' => 'router',
+				'action' => 'regex',
 			),
-			array(
-				1 => 'var'
-			)
+			array( 1 => 'var')
 		);
 
-		$router->addRoute('test', $route);
+		$router->addRoute('regex', $route);
 	
 	}
 	

@@ -7,14 +7,13 @@
  * @CTime: Thu 16 Oct 2014 12:30:12 AM CST
  */
 class IndexController extends Yaf_Controller_Abstract {
-	public function _init()
+	public function init()
 	{
-	
+		Yaf_Dispatcher::getInstance()->autoRender(false);
 	}
 
 	public function indexAction()
 	{
-
 		$this->getView()->assign('title', 'Yaf framework');
 		$this->getView()->return = 'hello, world!';
 	}
@@ -22,8 +21,9 @@ class IndexController extends Yaf_Controller_Abstract {
 
 	public function demoAction()
 	{
-		#throw new Exception('测试异常案例');
+		echo '<pre>====================' . __METHOD__ . ' start ====================<br/>';
 
+		#throw new Exception('测试异常案例');
 
 		#没有注册也能用，将类名分割成路径到library目录寻找
 		#$loader = Yaf_Loader::getInstance();
@@ -32,15 +32,13 @@ class IndexController extends Yaf_Controller_Abstract {
 		$bar = new Foo_Bar();
 		print_r($bar->getData());
 
-
-		Yaf_Dispatcher::getInstance()->autoRender(false);
+		echo '==================== ' . __METHOD__ . ' end ====================<br/><br/></pre>';
 	}
 
 	#Yaf_Application
 	public function appAction()
 	{
 		echo '<pre>====================' . __METHOD__ . ' start ====================<br/>';
-		Yaf_Dispatcher::getInstance()->autoRender(false);
 
 		$app = Yaf_Application::app();
 		#print_r($app);
