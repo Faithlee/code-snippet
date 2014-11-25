@@ -110,6 +110,20 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	}
 	
 	/*}}}*/
+	/*{{{public function _initRouteConfig()*/
+
+	#通过配置文件设置路由
+	public function _initRouteConfig(Yaf_Dispatcher $dispatcher)
+	{
+		$config = Yaf_Registry::get('config');
+
+		$router = $dispatcher->getRouter();
+		
+		#使用时开启配置的注释
+		#$router->addConfig($config->routes);
+	}
+	
+	/*}}}*/
 	/*{{{public function _initPlugin()*/
 	
 	#注册一个插件

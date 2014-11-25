@@ -14,6 +14,10 @@ class IndexController extends Yaf_Controller_Abstract {
 
 	public function indexAction()
 	{
+		#开启或关闭视图渲染
+		#Yaf_Dispatcher::getInstance()->disableView();
+		Yaf_Dispatcher::getInstance()->enableView();
+
 		$this->getView()->assign('title', 'Yaf framework');
 		$this->getView()->return = 'hello, world!';
 	}

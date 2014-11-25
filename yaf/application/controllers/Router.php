@@ -84,4 +84,21 @@ class RouterController extends Yaf_Controller_Abstract {
 
 		echo '==================== ' . __METHOD__ . ' end ====================<br/><br/></pre>';
 	}
+
+	#使用配置文件实现
+	public function configAction()
+	{
+		echo '<pre>====================' . __METHOD__ . ' start ====================<br/>';
+
+		$request = $this->getRequest();
+
+		$baseUri = $request->getBaseUri();
+		$requestUri = $request->getRequestUri();
+
+		echo '参数name:' . $this->getRequest()->getParam('name') . '<br/>';
+		echo '参数value:' . $this->getRequest()->getParam('value') . '<br/>';
+
+		echo '==================== ' . __METHOD__ . ' end ====================<br/><br/></pre>';
+	
+	}
 }
