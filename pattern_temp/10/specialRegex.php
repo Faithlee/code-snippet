@@ -9,7 +9,7 @@
 
 $str = 'test123123hello1111';
 
-preg_match_all('/[[:digit:]]+/', $str, $match);
+preg_match_all('/[:digit:]+/', $str, $match);
 var_dump($match);
 
 
