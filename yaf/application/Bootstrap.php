@@ -154,6 +154,9 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		#引用自身类
 		#$test = new Foo_Bar();
 		#print_r($test->getData());
+		$view = new Template();
+		$dispatcher->setView($view);
+		//print_r($view);die;
 	}
 
 	/*}}}*/
