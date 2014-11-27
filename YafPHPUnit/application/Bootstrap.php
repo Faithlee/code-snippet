@@ -23,9 +23,5 @@ class Bootstrap extends \Yaf\Bootstrap_Abstract {
 
         $this->_config = $config;
         \Yaf\Registry::set('config', $config);
-
-		$request = new Yaf\Request\Simple();
-
-		//print_r($request);
-    }
+	}
 }
