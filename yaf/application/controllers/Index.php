@@ -21,9 +21,12 @@ class IndexController extends Yaf_Controller_Abstract {
 		$this->getView()->assign('title', 'Yaf framework');
 		$this->getView()->return = 'hello, world!';
 
-		//print_r($this->getView());
-
 		$this->getView()->display('Index');
+
+		#只渲染模板
+		#$content = $this->getView()->render('Index');
+		#die;
+
 	}
 
 

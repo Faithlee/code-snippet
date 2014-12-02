@@ -8,8 +8,14 @@
  */
 
 class Template implements Yaf_View_Interface {
-	#todo 分离此变量
-	public $tplVars = array();
+	/**
+	 * tplVars 控制器到视图的变量
+	 * 
+	 * @var array
+	 * @access protected
+	 */
+	protected $tplVars = array();
+
 
 	public function assign($spec, $value = null) 
 	{
@@ -26,66 +32,104 @@ class Template implements Yaf_View_Interface {
 		return $this;
 	}
 
+	#只渲染模板，但不打印到页面
 	public function render($tpl, $tpl_vars = null)
 	{
-		$viewFile = APPLICATION_PATH . '/application/views/' . $tpl . '.php';
-		if (!file_exists($viewFile)) {
-			throw new Exception("{$tpl}.php not found!");	
+		var_dump( $tpl);
+		$tplFile =  $this->getScriptPath() . "/{$tpl}.tpl.php";
+		if (!file_exists($tplFile)) {
+			throw new Exception($tplFile . " not found!");	
 		}
 
-		require_once $viewFile;	
+		$eleFile = $this->getScriptPath() . "/{$tpl}.ele.php";
+		if (file_exists($eleFile)) {
+			require_once $eleFile;
+
+			$className = "Template{$tpl}";
+			$front = new $className;	
+		}
+
+		if (is_array($tpl_vars)) {
+			foreach ($tpl_vars as $key => $val) {
+				$this->tplVars[$key] = $val;
+			}
+		}
+
+		extract($this->tplVars);
+
+		ob_start();
+		
+		require_once $tplFile;	
+		$content = ob_get_contents();
+
+		ob_end_clean();
+
+		return $content;
 	}
 
+	public function display($tpl, $tpl_vars = null)
+	{
+		$tplFile = $this->getScriptPath() . "/{$tpl}.tpl.php";
+		if (!file_exists($viewFile)) {
+			throw new Exception($tplFile . ' not found!');	
+		}
+
+		#可以不设置ele文件
+		$eleFile = $this->getScriptPath() .  "/{$tpl}.ele.php";
+		if (file_exists($eleFile)) {
+			require_once $eleFile;
+
+			$className = "Template{$tpl}";
+			$front = new $className;
+		}
+
+		if (is_array($tpl_vars)) {
+			foreach ($tpl_vars as $key => $val) {
+				$this->tplVars[$key] = $val;
+			}
+		}
+
+		#extract 分离变量处理
+		extract($this->tplVars);
+
+		ob_start();
+		
+		require_once $viewFile;
+		$content = ob_get_contents();
+
+		ob_end_clean();
+		echo $content;
+		die;
+	}
+
+	#修改视图路径
 	public function setScriptPath($tpl_dir)
 	{
 		if (is_readable($tpl_dir)) {
 			$this->scriptPath = $tpl_dir;
 
-			return;
+			return $this;
 		}
 
 		$this->scriptPath = $this->getScriptPath();
+
 		return $this;
 	}
 
+	#设置默认视图路径
 	public function getScriptPath()
 	{
 		return APPLICATION_PATH . '/application/views';
 	}
 
-	public function display($tpl, $tpl_vars = null)
-	{
-		$viewFile = APPLICATION_PATH . '/application/views/' . $tpl . '.php';
-		if (!file_exists($viewFile)) {
-			throw new Exception("{$tpl}.php not found!");	
-		}
-
-		if (is_array($tpl_vars)) {
-			foreach ($tpl_vars as $key => $val) {
-				$this->$key = $val;
-			}
-		}
-
-		ob_start();
-
-		#extract 分离变量处理
-		require_once $viewFile;
-
-		$content = ob_get_contents();
-		ob_end_clean();
-
-		echo $content;
-
-		die;
-	}
-
 	public function __set($name, $val) 
 	{
-		$this->$name = $val;	
+		$this->tplVars[$name] = $val;	
 	}
 
 	public function __get($name)
 	{
-		return $this->$name;
+		#return $this->tplVars[$name];
+		return NULL;
 	}
 }
