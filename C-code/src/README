@@ -1,0 +1,11 @@
+编译生成可执行文件:
+	gcc source.c -o obj/outfile
+
+对应文件执行:
+ 1.demo: ./obj/demo port 2345
+ 2.argc: ./obj/argc 123 aa bb cc dd
+
+命令行参数说明:
+ @int argc: 命令行参数传递的个数;
+ @char **argv|char *argv[]: 保存参数;
+
