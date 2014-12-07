@@ -35,7 +35,6 @@ class Template implements Yaf_View_Interface {
 	#只渲染模板，但不打印到页面
 	public function render($tpl, $tpl_vars = null)
 	{
-		var_dump( $tpl);
 		$tplFile =  $this->getScriptPath() . "/{$tpl}.tpl.php";
 		if (!file_exists($tplFile)) {
 			throw new Exception($tplFile . " not found!");	
@@ -70,7 +69,7 @@ class Template implements Yaf_View_Interface {
 	public function display($tpl, $tpl_vars = null)
 	{
 		$tplFile = $this->getScriptPath() . "/{$tpl}.tpl.php";
-		if (!file_exists($viewFile)) {
+		if (!file_exists($tplFile)) {
 			throw new Exception($tplFile . ' not found!');	
 		}
 
@@ -94,7 +93,7 @@ class Template implements Yaf_View_Interface {
 
 		ob_start();
 		
-		require_once $viewFile;
+		require_once $tplFile;
 		$content = ob_get_contents();
 
 		ob_end_clean();
