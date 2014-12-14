@@ -1,0 +1,76 @@
+@charset "utf-8";
+
+/*CSS Document*/
+
+/*公用*/
+.comWidth{width: 1000px; margin-left: auto; margin-right: auto;}
+.leftArea{float: left;}
+.rightArea{float: right;}
+
+/*topBar*/
+.topBar{height: 31px; background-color: #F7F7F7; line-height: 31px;}
+.collection{background: url(../image/icon/collection.jpg) left center no-repeat; padding-left: 19px; font-weight: 13px;}
+
+/*logo*/
+.logoBar{height: 85px; background-color: #1d7ad9}
+.logo{padding-left: 41px; padding-top: 13px;}
+
+
+.searchbox{width: 430px;}
+.searchtext{width: 360px; height: 50px} 
+
+/*关于IE hack*/
+/*ie6下关于行高的计算，height、line-height、padding计算输入框的高度*/
+/*{line-height: 35px\9}    /*\9表示所有的IE浏览器*/
+
+/*缩写font*/
+.font{font-size: 14px; font-family: "Microsoft YaHei", "微软雅黑"; line-height: 35px;}
+.font{font: 14px/35px "Microsoft YaHei", "微软雅黑";}
+
+#temp{
+	overflow: hidden;
+	position: relative;
+	overflow: hidden;
+
+	/*绝对定位一定要有x轴和y轴*/	
+	position: absolute; 
+	left: 0;
+	right: 0;		
+
+	/*了解inline-block的用法*/
+	display: inline-block;
+
+	/*干掉H3加粗*/
+	font-weight: normal;
+
+	vertical-align: middle;
+
+	/*ie6下字体行高造成影响，需要减小行高的值，配合padding*/
+
+	/*处理png在ie6下背景：使用js处理png图片的插件*/
+	
+	/*ul>li最后一个底部样式与父级的不同时可以设置父级的margin-bottom：-1px，两个边框线重合；*/
+
+	/*padding-left 和 text-indent的效果是一样的，可以替换	*/
+	
+	/*在IE6下不允许子元素超过父级，会导致元素被挤下来：margin-bottom:-2px,同时提高子元素的优先级，position：relative;		*/
+
+	/*top:4px; _top:5px; _top针对IE6处理，同时应该增加其它优先级：position: relative;*/
+
+	/*css调试：对指定元素增加border或background看一下效果；*/
+
+	/*IE6下百分比宽度是有问题的，处理办法：width:25%; *width:24.9%;*/
+
+	/*IE6的字体与其它浏览器不同，需要在样式中统一加字体：font: verder;*/
+
+	/*保存所有浏览器都能兼容到input<input type="checkbox" id="check"><lable for="check">仅显示有货</label>*/
+	/*input分页输入框设置text-align:center;*/
+
+	/*样式书写时尽量加注释，分模块、组件，保证公用性；*/
+	
+	/*border边框重叠的时候设置li的margin-left:-1px，同时设置ul的padding-left:1px;但在选择的时右边框会被覆盖，
+	需要设置position:relative,z-index:10;优先级;*/
+
+	font:bold 24px/1 verdana;
+	
+}
