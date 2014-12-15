@@ -160,4 +160,16 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 	}
 
 	/*}}}*/
+	/*{{{public function _initDb()*/
+
+	#DB库配置
+	public function _initDb(Yaf_Dispatcher $dispatcher)
+	{
+		$config = Yaf_Registry::get('config');
+		$adapter = $config->resource->db;
+		$db = Zend_Db::factory($adapter);
+		Zend_Db_Table::setDefaultAdapter($db);
+	}
+	
+	/*}}}*/
 }
