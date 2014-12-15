@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+</head>
+<body>
+	<canvas id="myCanvas">you browser dosenot support the canvas</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('myCanvas');
+		var ctx = canvas.getContext('2d');
+
+		//draw blue rectangle
+		ctx.fillStyle = 'blue';
+		ctx.fillRect(0, 0, 125, 75);
+
+		//draw white x
+		ctx.beginPath();
+		ctx.lineWidth = 15;
+		ctx.strokeStyle = 'white';
+		ctx.moveTo(0, 0);
+		ctx.lineTo(125, 75);
+		ctx.moveTo(125, 0);
+		ctx.lineTo(0, 75);
+		ctx.stroke();
+
+	</script>
+
+	
+</body>
+</html>
