@@ -16,13 +16,6 @@ class CliController extends Yaf_Controller_Abstract {
 
 	public function indexAction()
 	{
-		echo '==================== ' . __METHOD__ . ' start ====================', PHP_EOL;
 
-		$request = $this->getRequest();
-
-		echo $request->getModuleName(), PHP_EOL;
-		echo $request->getRequestUri(), PHP_EOL;
-
-		echo '==================== ' . __METHOD__ . ' end ====================', PHP_EOL;
 	}
 }
