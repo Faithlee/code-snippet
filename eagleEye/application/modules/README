@@ -1,0 +1,7 @@
+###可以在此处完成自动发布类的项目, 如 Auto、API接口等；
+
+###需要在配置文件申明模块: application.modules = 'Index,Api'
+
+###目录结构: Api/controllers/newfile.php
+
+
