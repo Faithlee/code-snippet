@@ -1,0 +1,8 @@
+1.在Yaf_Application实例化之后，运行Yaf_Application::run()之前可以选择运行Yaf_Application::bootstrap();
+  在选择运行bootstrap后会在application目录查找Bootstrap.php文件，所以必须要定义一个Bootstrap.php文件; 
+
+2.可以选择在application.ini中定义bootstrap的位置；
+  application.bootstrap = '路径'
+
+3.在Bootstrap中定义的方法要以_init开头才会被Yaf调用，并且调用的次序与申明的次序相同；
+
