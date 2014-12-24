@@ -167,11 +167,17 @@ class Bootstrap extends Yaf_Bootstrap_Abstract {
 		$adapter = Zend_Db::factory($dbConfig->db);
 		Zend_Db_Table::setDefaultAdapter($adapter);
 
+		$administrator = Zend_Db::factory($dbConfig->administrator);
+		Zend_Db_Table::setDefaultAdapter($administrator);
+
+
 		#解决页面乱码，不清楚原因
 		$adapter->query('set names utf8');
+		$administrator->query('set names utf8');
 
 		//注册全局变量
 		Yaf_Registry::set('dbAdapter', $adapter);
+		Yaf_Registry::set('adminDb', $administrator);
 	}
 	
 	/*}}}*/
