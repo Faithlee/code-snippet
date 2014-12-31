@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>input元素</title>
+</head>
+<body>
+
+text: <input type="text" name="greeting" list="greetings" autocomplete="on">
+<!-- 使用style=display: none将datalsit元素设置为隐藏 -->
+<datalist id="greetings" style="display: none;">
+	<option value="Good Morning">Good morning</option>
+	<option value="Hello world">Hello world</option>
+	<option value="Good Afternoon">Good Afternoon</option>
+</datalist>
+	
+<br/>	
+email: <input type="email" name="email" value="admin@sina.com">	
+
+<br/>
+url: <input type="url" name="url" value="http://www.example.com">
+
+<br/>
+date: <input type="date" name="date" value="2015-01-04">
+
+<br/>
+time: <input type="time" name="time" value="12:00">
+
+<br/>
+谷歌浏览器暂不支持<br/>
+datetime: <input type="datetime" name="datetime" value="2015-01-04 12:00">
+
+<br/>
+local-datetime:<input type="datetime-local" name="localtime">
+
+<br/>
+month <input type="month" name="month" >
+
+<br/>
+week：<input type="week" name="week">
+
+<br/>
+number：<input type="number" name="num">
+
+<br/>
+range：<input name="range1" type="range" value="25" min="0" max="100" step="5">
+
+<br/>
+tel：<input type="tel" name="tele">
+
+<br/>
+search：<input type="search" name="search1">
+
+<br/>
+color: <input type="color" name="color1">
+
+
+<section>
+	<header>简单表单示例</header>
+	<form name="form1">
+		<label for="username">姓名</label>
+		<input name="username" id="username" type="text" required /><br/>
+		<label for="age">年龄</label>	
+		<input name="age" id="age" type="number" min=10 max=100><br/>
+		<label for="birthday">出生日期</label>
+		<input name="birthday" id="birthday" type="date"/><br/>
+		<label for="email">Email</label>
+		<input type="email" id="email" type="email" required>
+		<label for="url">个人主页</label>
+		<input name="url" type="url" id="url" /><br/>
+		<label for="memo">个人简介</label>
+		<textarea name="memo" id="memo" required></textarea><br/>
+		<input type="submit">
+	</form>
+</section>
+
+<section>
+	<header><h3>output元素--目前只有opera10支持</h3></header>
+	<form id="output_test">
+		<input type="range" name="range1" min="0" max="100" step="5"/>  
+		<output onforminput="value=range1.value">50</output>  
+	</form>
+</section>
+
+<br/>
+<br/>
+
+<section>
+	<header><h3>表单验证</h3></header>
+	<form id="validator">
+		<input type="text" name="text" required pattern="^\w.*$">
+		<input type="text" name="name" required pattern="[0-9][A-Z]{3}" placeholder="一个数字、三个大写字母">
+		<input type="submit">
+	</form>
+</section>
+
+<section>
+	<header><h3>显示验证--checkValidity()</h3></header>
+	<form id="checkValidaty" onsubmit="return check();">
+		<input type="email" name="email1" id="emails">
+		<input type="submit">
+	</form>
+</section>
+
+<script type="text/javascript">
+	function check()
+	{
+		var check = document.getElementById('emails');
+		if (check.value == '') {
+			alert('输入内容！');
+			return false;
+		}
+
+		if (check.checkValidity()){
+			alert('请输入正确的email地址！');
+			return false;	
+		}
+	}
+</script>
+</body>
+</html>

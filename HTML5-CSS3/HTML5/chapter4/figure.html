@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>页面增加元素</title>
+</head>
+<body>
+
+<section>
+	<header><h2>figure元素</h2></header>
+	<figure>
+		<figcaption>明星</figcaption>
+		<img src="/Faithlee/media/ford.jpg">
+		<img src="/Faithlee/media/ford.jpg">
+		<img src="/Faithlee/media/ford.jpg">
+		<img src="/Faithlee/media/ford.jpg">
+	</figure>
+</section>
+	
+<section>
+	<header><h2>details元素</h2></header>
+	<details>
+		<summary>电影名</summary>
+		<p>电影介绍</p>
+		<p>电影介绍</p>
+		<p>电影介绍</p>
+		<p>电影介绍</p>
+	</details>
+</section>
+
+<section>
+	<header><h2>mark元素</h2></header>
+	<h1>搜索"<mark>HTML5</mark>"花时间<mark>0.005s</mark></h1>
+
+	<article>
+		<h3>刘德华</h3>
+		<p>华仔是东方的<mark>汤姆.克鲁斯</mark></p>
+	</article>
+</section>
+
+<section>
+	<header><h2>progress元素</h2></header>
+	<p>完成百分比:<progress id="p" max=100><span>0</span>%</progress></p>
+	<input type="button" onclick="btn_click()" value="请点击">
+</section>
+
+
+<section>
+	<header><h2>meter元素使用</h2></header>
+	<p>磁盘的使用量:<meter value=40 min=0 max=160>40/160</meter>GB</p>
+	<meter value=92 min=0 max=100 low=40 high=90>A+</meter>
+	<meter>80%</meter>
+	<meter>3/4</meter>
+</section>
+
+<section>
+	<header><h2>改良的ol</h2></header>
+	<ol start="5">
+		<li>列表内容5</li>
+		<li>列表内容6</li>
+		<li>列表内容7</li>
+		<li>列表内容8</li>
+		<li>列表内容9</li>
+	</ol>
+
+	<header><h2>术语解释--改良的dl元素</h2></header>
+	<dl>
+		<dt><dfn>RSS</dfn></dt>
+		<dd>RSS又叫聚合RSS，是在线共享内容的一种简易方式………………</dd>
+		<dt>博客</dt>
+		<dd>博客，又译为网络日志，部落格等…………</dd>
+	</dl>
+
+	<header>表示辅助信息</header>
+	<dl>
+		<dt>作者</dt>
+		<dd>xxx</dd>
+	</dl>
+</section>
+
+
+<!--
+<section>
+	<header><h2></h2></header>
+</section>
+-->
+
+<script type="text/javascript">
+	var i = 0;
+	var stop;
+	var bar = document.getElementById('p');
+	function btn_click()
+	{
+		setInterval(test, 500);
+	}
+
+	function test(){
+		i++;		
+		console.log(i)
+		bar.value = i;
+		bar.getElementsByTagName('span')[0].textContent = i;
+
+		if (i == 100) {
+			clearInterval(stop)
+		}
+	}
+
+	stop = setInterval(test, 500);
+
+</script>
+
+</body>
+</html>
