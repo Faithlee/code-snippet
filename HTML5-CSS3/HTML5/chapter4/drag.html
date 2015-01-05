@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖放API</title>
+</head>
+<body onload="init()">
+<h2>拖放示例</h2>	
+<div id="dragme" draggable="true" style="width:20px; height:20px; border: 1px solid gray;"></div>	
+<div id="text" style="width: 200px; height: 200px; border: 1px solid gray;"></div>
+
+<script type="text/javascript">
+function init(){
+	var source = document.getElementById('dragme');
+	var dest = document.getElementById('text');
+	//拖放开始
+	// source.addEventListener('dragstart', function(e){
+	// 	//dataTransfer对象
+	// 	var dt = e.dataTransfer;
+	// 	dt.effectAllowed = 'copy';
+
+	// 	//第一个参数只能是text/plain或text/html
+	// 	dt.setData('text/plain', '你好');
+	// }, false);
+	
+	var dragimg = document.createElement('img');
+	dragimg.src = '/Faithlee/media/ford.jpg';
+	source.addEventListener('dragstart', function(e){
+		var dt = e.dataTransfer;
+		dt.setDragImage(dragimg, -10, -20);
+
+		dt.setData('text/plain', 'hello world!');
+	}, false);
+
+	//dragend拖放结束
+	dest.addEventListener('dragend', function(e){
+		e.preventDefault();
+	}, false);
+
+	//被拖放 drop
+	dest.addEventListener('drop', function(e){
+		var dt = e.dataTransfer;
+		var text = dt.getData('text/plain');
+
+		dest.textContent += text;
+
+		//不执行默认处理，
+		e.preventDefault();
+
+		//停止事件传播
+		e.stopPropagation();
+	}, false);
+
+	dest.addEventListener('dragover', function(e){
+		var dt = e.dataTransfer;
+		dt.dropEffect = 'copy';
+		e.preventDefault();
+	}, false)
+}
+	document.ondragover = function(e){e.preventDefault();};
+	document.ondrop  = function(e){e.preventDefault();};
+</script>
+</body>
+</html>

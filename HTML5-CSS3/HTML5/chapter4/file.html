@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>File对象</title>
+</head>
+<body>
+
+
+<input type="file" id="file" multiple size="80">
+<input type="button" onclick="showFileName()" value="文件上传">
+文件大小：<span id="size"></span>
+文件类型：<span id="type"></span>
+
+
+<form action="" method="post">
+	<p>
+		<label>请选择一个文件:</label>		
+		<input type="file" id="testFile" />
+		<input type="button" value="读取图像" onclick="dataUrl()">
+		<input type="button" value="读取二进制数据" onclick="binaryString()">
+		<input type="button" value="读取文本文件" onclick="text()">
+	</p>
+</form>
+<div name="result" id="result"> </div>
+
+<section>
+	<header>
+		<h2>fileReader对象事件的先后顺</h2>
+	</header>
+	<form>
+		<p>
+			<label>选择图片</label>
+			<input type="file" id="upload">
+			<input type="button" value="显示图片" onclick="readFile()">
+		</p>
+	</form>
+	<div id="content"></div>
+</section>
+
+<script type="text/javascript">
+	function showFileName()
+	{
+		var file;
+		var sizes = document.getElementById('size');
+		var type = document.getElementById('type')
+		for (var i = 0; i < document.getElementById('file').files.length; i++) {
+			file = document.getElementById('file').files[i];
+			sizes.innerHTML = file.size;
+			type.innerHTML = file.type;	
+		}
+
+	}
+
+
+	if (typeof FileReader == 'undefined') {
+		alert('你的浏览器不支持！');
+	} else {
+		var reader = new FileReader();
+	}
+
+	//fileReader方法示例
+	var result = document.getElementById('result');
+	var file = document.getElementById('testFile');
+	function dataUrl() {
+		var file = document.getElementById('testFile').files[0];
+		if (!/image\/\w+/.test(file.type)) {
+			alert('请确保文件是图片类型');
+			return false;
+		}
+
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function(e){
+			var result = document.getElementById('result');
+
+			//将图片资源保存在result属性中；
+			result.innerHTML = '<img src="' + this.result + '" />';
+		}
+	}
+
+	function binaryString() {
+		var file = document.getElementById('testFile').files[0];
+		var reader = new FileReader();
+
+		reader.readAsBinaryString(file);
+		reader.onload = function(f){
+			var result = document.getElementById('result');
+			result.innerHTML = this.result;
+		}
+
+	}
+
+	function text()	{
+		var file = document.getElementById('testFile').files[0];
+		var reader = new FileReader();
+
+		reader.readAsText(file);
+		reader.onload = function(e) {
+			var result = document.getElementById('result');
+			result.innerHTML = this.result;
+		}
+	}
+
+	function readFile(){
+		var file = document.getElementById('upload').files[0];
+		var content = document.getElementById('content');
+		var reader = new FileReader();
+
+		reader.onload = function(e){
+			content.innerHTML = '<img src="' + this.result + '">'
+			alert('load');
+		}
+
+		reader.onprogress = function(e) {
+			alert('progress');
+		}
+
+		reader.onabort = function(e){
+			alert('abort');
+		}
+
+		reader.onerror = function(e){
+			alert('error');
+		}
+
+		reader.onloadstart = function(e){
+			alert('loadstart');
+		}
+
+		reader.onloadend = function(e) {
+			alert('loadend');
+		}
+
+		reader.readAsDataURL(file);
+	}
+
+</script>
+
+</body>
+</html>
