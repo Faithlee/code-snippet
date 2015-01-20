@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jquery mobile</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<!-- 
+<div data-role="page">
+	<div data-role="header">页面头部</div>
+	<div data-role="content">内容</div>
+	<div id="title" data-role="技术">
+		这是一个简单的hello world 示例！
+	</div>
+	<div data-role="footer">页脚</div>
+</div>
+ -->
+<!-- 使用html5标签 -->
+
+<!-- 
+<section data-role="page">
+	<header data-role="header">页头</header>
+	<article data-role="content">内容</article>
+	<footer data-role="footer">页脚</footer>
+</section>
+ -->
+
+
+<section data-role="page" id="firstView">
+	<header data-role="header">第一视图</header>	
+	<article data-role="content">
+		<a href="#secondView">切换到第二视图</a>
+	</article>
+	<footer data-role="footer">页脚</footer>
+</section>
+<section data-role="page" id="secondView">
+	<header data-role="header">第二视图</header>
+	<article data-role="content">
+		<a href="#firstView">切换到第一视图</a>
+	</article>
+	<footer data-role="footer">页脚</footer>
+</section>
+
+
+<script type="text/javascript">
+	var title = document.getElementById('title');
+
+	/*	
+	// 判断是否支持dataset属性
+	if (title.dataset) {
+		// alert('支持');
+		alert(title.dataset.category);
+	} else {
+		alert('不支持')
+	}
+	*/
+</script>	
+</body>
+</html>

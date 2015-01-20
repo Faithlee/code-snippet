@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jquery mobile more view page</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+<section data-role="page" id="firstView" data-title="第3个视图">
+	<header data-role="header">第三个视图</header>	
+	<article data-role="content">
+		<a href="#secondView">切换第四视图</a>
+	</article>
+	<footer data-role="footer">页脚</footer>
+</section>
+
+<section data-role="page" id="secondView" data-title="第4个视图">
+	<header data-role="header">第四个视图</header>
+	<article data-role="content">
+		<a href="#firstView">切换第三视图</a>
+	</article>
+	<footer data-role="footer">页脚</footer>
+</section>
+	
+</body>
+</html>
