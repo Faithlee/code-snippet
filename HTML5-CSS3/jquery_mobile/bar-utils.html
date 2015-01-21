@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bar工具组件</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>	
+</head>
+<body>
+
+<div data-role="page" id="forwardPage">
+	<header data-role="header">
+		<a>按钮</a>
+		<h3>前进视图标题</h3>
+		<a href="#backPage">前进</a>
+	</header>	
+	<div>进入后退视图</div>
+	<footer data-role="footer">
+		<h3>footer bar</h3>
+	</footer>
+</div>	
+
+<!-- 注意data-back会忽略a的href属性 -->
+<!--
+<div data-role="page" id="backPage">
+	<header data-role="header">
+		<a data-rel="back">后退</a>
+		<h3>后退视图标题</h3>
+	</header>
+	<div>进入前进视图标题</div>
+	<footer data-role="footer">
+		<h3>footer bar</h3>	
+	</footer>	
+</div>
+-->
+
+<!-- 另一种方式 -->
+<div data-role="page" id="backPage" data-add-back-btn="true" data-back-btn-text="返回" >
+	<header data-role="header">
+		<h3>后退视图标题</h3>
+	</header>
+	<div>进入前进视图</div>
+	<footer data-role="footer" class="ui-bar" data-theme="d">
+		<!-- <h3>footer bar</h3>	 -->
+		<div data-role="controlgroup" data-type="horizontal">
+			<a href="#" data-role="button" data-icon="delete">删除</a>
+			<a href="#" data-role="button" data-icon="plus">添加</a>
+			<a href="#" data-role="button" data-icon="arrow-u">向上</a>
+			<a href="#" data-role="button" data-icon="arrow-d">向下</a>
+		</div>
+	</footer>
+</div>
+<script type="text/javascript">
+	// $.mobile.page.prototype.options.backBtnText = '后退';
+	// console.log($.mobile.page.prototype.options.backBtnText)
+	$(document).bind("mobileinit", function() {
+		// $.mobile.page.prototype.options.addBackBtn = true;
+		// $.mobile.toolbar.prototype.options.backBtnText = "previous";
+		$('#backPage header').toolbar({
+			addBackBtn: true
+		})
+	});
+</script>
+</body>
+</html>

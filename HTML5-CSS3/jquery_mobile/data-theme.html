@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>设置主题</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<!-- 设置主题风格 -->
+<section data-role="page" data-theme="a">
+	<header data-role="header" data-theme="b"><h2>第一视图</h2></header>	
+	<article data-role="content" >内容 </article>
+
+	<section data-role="content">
+		<!-- 将链接变成按钮、submit/reset/button/image的input标签 -->
+
+		<!-- a标签需要设置button属性,图标才会有效 -->
+		<a href="#" data-role="button" data-icon="forward">链接按钮</a> 	
+
+		<input type="submit" value="提交" data-role="button" data-icon="arrow-u">
+		<input type="reset" value="重置"  data-icon="refresh">
+
+		<!-- 设置没有图标的按钮 -->
+		<a href="#" data-role="button" data-icon="delete" data-iconpos="notext">delete</a>
+		<a href="#" data-role="button" data-icon="home" data-iconpos="notext">home</a>
+
+
+		<!-- 
+			自定义图标 : 在CSS中设置相应样式名.ui-icon-myapp-email即可
+		-->
+		<a href="#" data-role="button" data-icon="myapp-email" data-iconpos="notext">define</a>
+
+		<!-- 设置内联样式 -->
+		<a href="#" data-role="button" data-icon="home" data-theme="b" data-inline="true">home</a>	
+		<a href="#" data-role="button" data-icon="back" data-inline="true" data-theme="c">back</a>	
+	
+		<!-- 分组功能的button -->
+		<div data-role="controlgroup" data-type="horizontal">
+			<a href="#" data-role="button" data-theme="a" data-icon="back" data-iconpos="notext">确定</a>
+			<a href="#" data-role="button" data-theme="b" data-icon="home" data-iconpos="notext">主页</a>
+			<a href="#" data-role="button" data-theme="c" data-icon="forward" data-iconpos="notext">前进</a>
+		</div>
+
+	</section>
+	<footer data-role="footer">页脚</footer>
+</section>	
+</body>
+</html>
