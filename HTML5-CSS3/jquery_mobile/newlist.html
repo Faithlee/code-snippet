@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Document</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>	
+</head>
+<body>
+
+<div data-role="page">
+	<!--
+	<header data-role="header">
+		<h3>普通列表组件</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li><a href="#">List 1</a></li>
+			<li><a href="#">List 2</a></li>
+			<li><a href="#">List 3</a></li>
+			<li><a href="#">List 4</a></li>
+		</ul>
+	</div>
+	-->
+
+	<!-- 嵌套列表在最新的框架下存在问题 -->
+	<!--
+	<header data-role="header">
+		<h3>嵌套列表</h3>
+	</header>	
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li>
+				<a href="#" data-add-back-btn="true">List 1</a>
+				<p>这是第一层List 1</p>
+				<ul>
+					<li><a href="#">SubList 1 of list 1</a></li>
+					<li><a href="#">SubList 2 of list 1</a></li>
+					<li><a href="#">SubList 3 of list 1</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">List 2</a>
+				<p>这是第二层List2</p>
+				<ul>
+					<li><a href="#">SubList 1 of list 2</a></li>
+					<li><a href="#">SubList 2 of list 2</a></li>
+					<li><a href="#">SubList 3 of list 2</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">List 3</a>	
+				<p>这是第三层列表List</p>
+				<ul>
+					<li><a href="#">SubList 1 of List 3</a></li>
+					<li><a href="#">SubList 2 of List 3</a></li>
+					<li><a href="#">SubList 3 of List 3</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	-->
+
+	<!-- 有序列表 -->
+	<header data-role="header">
+		<h3>有序列表</h3>
+	</header>
+	<div data-role="content">
+		<ol data-role="listview" data-theme="g">
+			<li><a href="#">List 1</a></li>
+			<li><a href="#">List 2</a></li>
+			<li><a href="#">List 3</a></li>
+			<li><a href="#">List 4</a></li>
+			<li><a href="#">List 5</a></li>
+		</ol>
+	</div>
+
+	<!-- 只读列表:配合data-inset内嵌样式使用 -->
+	<header data-role="header">
+		<h3>只读列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true">
+			<li>List 1</li>
+			<li>List 2</li>
+			<li>List 3</li>
+			<li>List 4</li>
+		</ul>
+	</div>	
+
+	<!-- 分割列表 -->
+	<header data-role="header">
+		<h3>可分割列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-split-icon="gear" data-split-theme="g">
+			<li><a href="#">List 1</a><a href="#"></a></li>
+			<li><a href="#">List 2</a><a href="#"></a></li>
+			<li><a href="#">List 3</a><a href="#"></a></li>
+			<li><a href="#">List 4</a><a href="#"></a></li>
+		</ul>
+	</div>
+
+	<!-- 列表分隔符 -->
+	<header data-role="header">
+		<h3>列表分隔</h3>
+	</header>	
+	<div data-role="content">
+		<ul data-role="listview">
+			<li data-role="list-divider">A</li>
+			<li><a href="#">Admin</a></li>
+			<li data-role="list-divider">B</li>
+			<li><a href="#">Boy</a></li>
+			<li><a href="#">BigPig</a></li>
+		</ul>
+	</div>
+
+	<!-- 设置搜索过滤功能 -->
+	<header data-role="header">
+		<h3>搜索过滤</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-filter="true" data-theme="g">
+			<li><a href="index.html">Acura</a></li>
+			<li><a href="index.html">Audi</a></li>
+			<li><a href="index.html">BMW</a></li>
+			<li><a href="index.html">Cadillac</a></li>
+			<li><a href="index.html">Chrysler</a></li>
+			<li><a href="index.html">Dodge</a></li>
+		</ul>	
+	</div>
+	
+	<!-- 气泡式计数列表 -->
+	<header data-role="header">
+		<h3>气泡式计数列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li><a href="#">List 1</a><span class="ui-li-count">33</span></li>
+			<li><a href="#">List 2</a><span class="ui-li-count">33</span></li>
+			<li><a href="#">List 3</a><span class="ui-li-count">33</span></li>
+			<li><a href="#">List 4</a><span class="ui-li-count">33</span></li>
+			<li><a href="#">List 5</a><span class="ui-li-count">33</span></li>
+			<li><a href="#">List 1</a><span class="ui-li-count">33</span></li>
+		</ul>
+	</div>
+
+	<!-- 右侧文本列表格式 -->
+	<header data-role="header">
+		<h3>右侧文本列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li><a href="#">安装状态</a><p class="ui-li-aside">已安装</p></li>
+			<li><a href="#">安装状态</a><p class="ui-li-aside">已卸载</p></li>
+			<li><a href="#">姓名</a><p class="ui-li-aside">Faith</p></li>
+			<li><a href="#">性别</a><p class="ui-li-aside">男</p></li>
+		</ul>
+	</div>
+
+	<!-- 含有图标的列表 -->
+	<header data-role="header">
+		<h3>含有图标的列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li>
+				<img src="gf.png" class="ui-li-icon">
+				<a href="index.html">France</a>
+				<span class="ui-li-count">4</span>
+			</li>
+			<li>
+				<img src="gf.png" class="ui-li-icon">
+				<a href="index.html">German</a>
+				<span class="ui-li-count">44</span>
+			</li>	
+			<li>
+				<img src="gf.png" class="ui-li-icon">
+				<a href="index.html">England</a>
+				<span class="ui-li-count">4</span>
+			</li>	
+		</ul>
+	</div>
+	
+	<!-- 含有图片的列表 -->
+	<header data-role="header">
+		<h3>含有图片的列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-theme="g">
+			<li>
+				<img src="ford.jpg">
+				<h3><a href="index.html">France</a></h3>
+				<p>4444444444</p>
+			</li>
+			<li>
+				<img src="ford.jpg">
+				<h3><a href="index.html">German</a></h3>
+				<p>4444444444</p>
+			</li>	
+			<li>
+				<img src="ford.jpg">
+				<h3><a href="index.html">England</a></h3>
+				<p>4444444444</p>
+			</li>	
+		</ul>
+	</div>
+
+	<header data-role="header">
+		<h3>内嵌列表</h3>
+	</header>
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true" data-theme="g">
+			<li><a href="#">List 1</a><span class="ui-li-count">3</span></li>
+			<li><a href="#">List 2</a><span class="ui-li-count">3</span></li>
+			<li><a href="#">List 3</a><span class="ui-li-count">3</span></li>
+			<li><a href="#">List 4</a><span class="ui-li-count">3</span></li>
+		</ul>
+		<ol data-role="listview" data-inset="true" data-theme="g">
+			<li><a href="#">List 1</a></li>
+			<li><a href="#">List 2</a></li>
+			<li><a href="#">List 3</a></li>
+			<li><a href="#">List 4</a></li>
+			<li><a href="#">List 5</a></li>
+		</ol>
+		<ul data-role="listview" data-inset="true" dat-theme="g">
+			<li><a href="#">List 1</a></li>
+			<li><a href="#">List 2</a></li>
+			<li><a href="#">List 3</a></li>
+			<li><a href="#">List 4</a></li>
+		</ul>
+	</div>
+
+</div>
+</body>
+</html>
