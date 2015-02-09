@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>表单元素</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>	
+	
+<script type="text/javascript">
+	console.log($.mobile.selectmenu.prototype.options.hidePlaceholderMenuItems )
+</script>	
+</head>
+<body>
+<header data-role="header">
+	<a href="#">主页</a>
+	<h3>表单元素</h3>
+	<a href="#">前进</a>
+</header>
+<section data-role="content">
+	<label for="name">name:</label>
+	<input type="text" name="name" id="name" value="">	
+
+	<label for="passwd">passwd:</label>
+	<input type="password" name="password" id="passwd" value="">
+
+	<label for="number">number</label>
+	<input type="number" name="num" id="number" value="">
+
+	<label for="content">content:</label>
+	<textarea cols="40" rows="40" name="contents" id="content"></textarea>
+
+	<!-- 搜索框特殊处理:增加搜索小图标 -->
+	<label id="search"></label>
+	<input type="search" id="search" name="search" value="">
+
+	<!-- slide类型：range类型的范围选择控件 -->
+	<div data-role="fieldcontain">
+		<label id="slider">slider</label>
+		<input type="range" min="0" max="10" value="2" id="slider" name="slider" step="2">
+	</div>
+
+	<!-- toggle类型：形状效果 -->
+	<div data-role="fieldcontain">
+		<label id="switches">toggle switches:</label>
+		<select name="switch" id="switches" data-role="slider">
+			<option value="off">关闭</option>
+			<option value="on">开启</option>
+		</select>
+	</div>	
+
+	<hr>
+	<!-- 垂直排列 -->
+	<fieldset data-role="controlgroup">
+		<legend>选择年龄范围：</legend>	
+		<input type="radio" name="radio-1" id="radio-1" value="any" checked="checked"><label for="radio-1">不限</label>
+		<input type="radio" name="radio-2" id="radio-2" value="16-22"><label for="radio-2">16-22</label>
+		<input type="radio" name="radio-3" id="radio-3" value="23-30"><label for="radio-3">23-30</label>
+	</fieldset>	
+
+	<hr>
+
+	<!-- 水平排列单选 -->
+	<fieldset data-role="controlgroup" data-type="horizontal">
+		<legend>微博选择 </legend>
+		<input type="radio" name="chart" id="radio-4" value="any" checked="checked"><label for="radio-4">微博</label>
+		<input type="radio" name="chart" id="radio-5" value="fans"><label for="radio-5">粉丝</label>
+		<input type="radio" name="chart" id="radio-6" value="focus"><label for="radio-6">关注</label>
+	</fieldset>
+
+	<!-- 垂直排列复选框 -->
+	<fieldset data-role="controlgroup">
+		<legend>选择爱好:</legend>
+		<input type="checkbox" name="like" value="1" id="box1" checked="checked"><label for="box1">音乐</label>
+		<input type="checkbox" name="like" value="2"id="box2"><label for="box2">体育</label>
+		<input type="checkbox" name="like" value="3"id="box3"><label for="box3">美食</label>
+		<input type="checkbox" name="like" value="4"id="box4"><label for="box4">水果</label>
+	</fieldset>
+
+	<!-- 水平排列复选框 -->
+	<fieldset data-role="controlgroup" data-type="horizontal">
+		<legend>选择明星:</legend>
+		<input type="checkbox" name="like" value="1" id="box5" checked="checked"><label for="box5">周杰伦</label>
+		<input type="checkbox" name="like" value="2" id="box6"><label for="box6">刘德华</label>
+		<input type="checkbox" name="like" value="3" id="box7"><label for="box7">李宇春</label>
+		<input type="checkbox" name="like" value="4" id="box8"><label for="box8">张靓颖</label>
+	</fieldset>
+	
+	<hr>
+	<!-- 下拉框：分组限制、禁止选择、multiple多选无法使用 -->
+		
+	<div data-role="controlgroup" >
+		<label for="selector1" class="select">选择兴趣:</label>
+		<select name="hobby" id="selector1" data-native-menu="false" data-iconpos="left">
+			<option value="" data-placeholder="true">请选择</option>
+			<optgroup label="娱乐类">	
+				<option value="电影">电影</option>
+				<option value="音乐">音乐</option>
+			</optgroup>
+			<optgroup label="文体类">
+				<option value="体育">体育</option>
+				<option value="旅游">旅游</option>
+				<option value="极限运动" disabled="true">极限运动</option>
+			</optgroup>
+		</select> 
+	</div>	
+
+	<div data-role="controlgroup">
+		<label for="selector">选择</label>
+		<select name="test" id="selector" data-native-menu="false" multiple>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+	</div>
+
+	<!-- 支持其它的data开头的属性 -->
+	<div data-role="controlgroup">
+		<label for="user" class="select" data-theme="b">操作</label>
+		<select name="user" id="user" data-native-menu="false" data-icon="gear" data-inline="true">
+			<option value="1">编辑</option>
+			<option value="2">删除</option>
+		</select>
+	</div> 
+
+</section>
+<footer data-role="footer">
+	<nav data-role="navbar">
+		<ul>
+			<li><a href="#" data data-icon="home" data-iconpos="top">主页</a></li>
+			<li><a href="#" data-icon="info" data-iconpos="top">信息</a></li>
+			<li><a href="#" data-icon="alert" data-iconpos="top">提示</a></li>
+		</ul>
+	</nav>
+</footer>
+
+</body>
+</html>

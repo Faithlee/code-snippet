@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Grid网格布局</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>	
+</head>
+<body>
+	<div class="ui-grid-b">
+		<div class="ui-block-a"><input type="reset" data-theme="a" value="a"></div>	
+		<div class="ui-block-b"><input type="submit" data-theme="b" value="b"></div>
+		<div class="ui-block-c"><input type="button" data-theme="c" value="c"></div>
+	</div>
+	<!-- todo 为什么第二个总是选中状态? -->
+	<div class="ui-grid-c">
+		<div class="ui-block-a"><a href="#" data-role="button" data-theme="a">1</a></div>	
+		<div class="ui-block-b"><a href="#" data-role="button" data-theme="b">2</a></div>	
+		<div class="ui-block-c"><a href="#" data-role="button" data-theme="c">3</a></div>	
+		<div class="ui-block-d"><a href="#" data-role="button" data-theme="d">4</a></div>	
+	</div>
+
+	<hr>
+	<header data-role="header" data-theme="a" data-position="fixed">
+		<h3>定义三行五列</h3>
+	</header>
+	<div class="ui-grid-d">
+		<div class="ui-block-a"><input type="button" data-theme="a" value="a"></div>
+		<div class="ui-block-b"><input type="button" data-theme="b" value="b"></div>
+		<div class="ui-block-c"><input type="button" data-theme="c" value="c"></div>
+		<div class="ui-block-d"><input type="button" data-theme="d" value="d"></div>
+		<div class="ui-block-e"><input type="button" data-theme="e" value="e"></div>
+
+		<div class="ui-block-a"><input type="button" data-theme="a" value="a"></div>
+		<div class="ui-block-b"><input type="button" data-theme="b" value="b"></div>
+		<div class="ui-block-c"><input type="button" data-theme="c" value="c"></div>
+		<div class="ui-block-d"><input type="button" data-theme="d" value="d"></div>
+		<div class="ui-block-e"><input type="button" data-theme="e" value="e"></div>
+		
+		<div class="ui-block-a"><input type="button" data-theme="a" value="a"></div>
+		<div class="ui-block-b"><input type="button" data-theme="b" value="b"></div>
+		<div class="ui-block-c"><input type="button" data-theme="c" value="c"></div>
+		<div class="ui-block-d"><input type="button" data-theme="d" value="d"></div>
+		<div class="ui-block-e"><input type="button" data-theme="e" value="e"></div>
+	</div>
+</body>
+</html>
