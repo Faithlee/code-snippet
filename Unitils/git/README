@@ -1,0 +1,15 @@
+git使用范例
+	1、用户A创建工作树: ~/work/project
+
+	2、用户B协同用户A开发项目project，将用户A机器的代码克隆一份到本地:
+       PS:git clone可以利用各种网络协议访问远端机器的git库，如上面使用SSH协议
+		$ git clone userA@localhost:~/work/project [dir]
+
+	3、一段时间后用户A将用户B的工作全并:
+		$ git pull userB@localhost:dir 
+	
+	4、如果多个用户协同用户A开发项目project，则用户A不需要一一取回其他用户的仓库;
+	   在其他其他用户更新完了代码并提交 git commit -m 'update', 再使用 git pull的
+	   对偶命令git push即可:
+		$ git push user@localhost:GitDir master 
+

@@ -1,0 +1,59 @@
+<head>
+    <meta charset="UTF-8">
+    <title>ueditor demo</title>
+</head>
+
+<form action="server.php" method="post">
+	<!-- 加载编辑器的容器 -->
+    <script id="container" name="content" type="text/plain">
+        这里写你的初始化内容121312312
+    </script>
+	
+	<input type="submit" name="btn" value="提交">
+</form>
+
+<!-- 配置文件 -->
+<script type="text/javascript" src="ueditor.config.js"></script>
+
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="ueditor.all.js"></script>
+
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    //初始化编辑器，定制编辑器的特性
+    var ue = UE.getEditor('container', {
+        toolbars: [['fullscreen', 'source', 'bold', 'undo', 'redo', 'fontfamily', 'fontsize']],
+        fontsize: [10, 11, 12, 14, 16, 18, 20, 24, 36, 40],
+        fontfamily: 
+            [{
+                label: 'SimSun',    //多语言支持
+                name: 'songti',
+                val: '宋体,SimSun'
+            }, {
+                label: '',
+                name: 'kaiti',      //多语言支持
+                val: '楷体,楷体_GB2312, SimKai'
+            }, {
+                label: '',
+                name: 'yahei',
+                val: '微软雅黑,Microsoft YaHei'
+            }] ,
+        autoHeightEnabled: true,
+        autoFloatEnabled: true,
+        autoHeight: true
+    });
+
+    //设置编辑器初始化内容及获取
+    ue.ready(function(){
+        // ue.setContent('elll');
+        var html = ue.getContent();
+        // console.log(html);
+
+        var txt = ue.getContentTxt();
+        // console.log(txt);
+    });
+</script>
+
+
+
+
