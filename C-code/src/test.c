@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-main()
+int main(void)
 {
 	printf("this is my first c program in centos\n");
 
